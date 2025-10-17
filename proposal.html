@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Group 2: Ariel Xia, Yuxin Jin, Aaron Huang">
+    <meta name="description" content="This is a travel planner web application proposal.">
+    <link rel="stylesheet" href="css/proposal.css">
+    <title>Intelligent Travel Planner</title>
+</head>
+<header>
+    <h1>Intelligent Travel Planner</h1>
+</header>
+<body>
+    <section id="problem-data-domain">
+        <h2>Problem/Data Domain</h2>
+        <p>
+          <p>
+            Planning a trip sounds exciting, but in reality it’s a messy and time-consuming process. 
+            Most people have to jump between Google Maps, Notes, and random spreadsheets just to figure out what to do each day. 
+            It’s easy to overbook a day, miss a place that’s closed, or end up walking way more than expected. 
+            We noticed that there isn’t really one simple tool that helps organize all this information in a flexible way. 
+            This can make travel especially difficult for people with mobility limits or tighter budgets who need to plan efficiently.
+          </p>
+          <p>
+            Some travel apps like <a href="https://www.tripit.com/" target="_blank">TripIt</a> and 
+            <a href="https://www.wanderlog.com/" target="_blank">Wanderlog</a> try to help, 
+            but they focus more on collecting bookings or showing lists rather than helping people actually balance time, distance, and costs. 
+            Most of them also require logging in or storing your trip on a server, which isn’t ideal if you just want to plan privately or offline. 
+            We want to create a lightweight, local web app that keeps all data on your device while letting you easily see what fits into each day. 
+            Our project aims to make trip planning more practical, inclusive, and less stressful.
+          </p>          
+        </p>
+    </section>
+
+    <section id="app-description">
+        <h2>App Description</h2>
+        <p>
+            Our app welcomes a wide range of users who want to plan trips efficiently—especially first-time visitors and
+            time-pressed families who benefit from a structured plan—as well as students and travelers who want a quick, 
+            personalized itinerary without creating an account or juggling multiple tabs. To ensure inclusivity and minimize 
+            negative impacts on minority groups, we will provide screen-reader support, a color-vision-deficiency–
+            friendly theme, accessible contrast, and clear text labels (never color alone).
+        </p>
+        <p>
+          The web application contains four interactive sections that together enhance the trip-planning experience:
+        </p> 
+        <ul>
+          <li>
+            <strong>Itinerary Planner:</strong> A calendar interface where users can create schedules by adding events with a specific date and time (exact 
+            hour or morning/afternoon) and rating each attraction from one to five stars. The flight time will be included based on users' input flight number / exact
+            flight time. If the flight number is provided, the app will attach a link to the flight from 
+            <a href="https://www.flightaware.com/live/flight/DAL281" target="_blank">
+              FlightAware
+            </a>  
+            so users can keep track of the flight info.
+          </li>
+          <li>
+            <strong>Map Visualization:</strong> An interactive map that displays all selected attractions with pins and 
+            draws daily routes once an itinerary is finalized. Users will be directed to this map when clicking on the location in the itinerary planner.
+          </li>
+          <li>
+            <strong>Social Interaction:</strong> A section where users can like, save, and share itineraries with others.
+          </li>
+          <li>
+            <strong>Attraction Information:</strong> A searchable database of attractions with brief introductions sourced 
+            from an online travel database.
+          </li>
+        </ul>
+        <p>
+          The app manages user-generated 
+          itinerary data (destinations, timing, preferences, and notes) and integrates external data through 
+          <a href="https://www.google.com/maps/dir/University+of+Washington,+Seattle,+WA/Space+Needle,+400+Broad+St,+Seattle,+WA+98109/@47.6337957,-122.3680465,13z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x54901492f492ee53:0xc49de620ee4a0b02!2m2!1d-122.3081762!2d47.6516448!1m5!1m1!1s0x5490151f4ed5b7f9:0xdb2ba8689ed0920d!2m2!1d-122.3492774!2d47.6205063?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+            Google Maps links
+          </a> 
+          that open in a new tab, ensuring seamless navigation.  
+        </p>         
+        <p>
+          We chose this project because trip planning is often fragmented and time-consuming, involving multiple searches 
+          for attraction descriptions, sample itineraries, and travel methods across different platforms. Our app simplifies 
+          this process by combining all these tasks into a single, interactive space. Users can input their travel details, 
+          immediately generate an organized daily schedule, and iteratively adjust their plans with real-time feedback. 
+          The client-side design allows travelers to store progress locally, avoid paywalls or login barriers, and share 
+          itineraries through simple links. By streamlining trip creation while emphasizing accessibility and inclusivity, our 
+          app provides a structured, efficient, and user-friendly solution to one of the most common travel challenges.
+        </p>
+
+        <h2>Citation: </h2>
+        <p>
+          <cite>
+            <a href="https://www.google.com/maps/dir/University+of+Washington,+Seattle,+WA/Space+Needle,+400+Broad+St,+Seattle,+WA+98109/@47.6337957,-122.3680465,13z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x54901492f492ee53:0xc49de620ee4a0b02!2m2!1d-122.3081762!2d47.6516448!1m5!1m1!1s0x5490151f4ed5b7f9:0xdb2ba8689ed0920d!2m2!1d-122.3492774!2d47.6205063?entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                Google Maps Directions
+            </a>
+          </cite>
+        </p>
+        <p>
+          <cite>
+            <a href="https://www.flightaware.com/live/flight/DAL281" target="_blank">
+                FlightAware Flight Info
+            </a>
+          </cite>
+        </p>
+        <p>
+          <cite>
+            <a href="https://www.tripit.com/" target="_blank">
+                TripIt
+            </a>
+          </cite>
+        </p>
+        <p>
+          <cite>
+            <a href="https://www.wanderlog.com/" target="_blank">
+                Wanderlog
+            </a>
+          </cite>
+        </p>
+    </section>
+</body>
+</html>
