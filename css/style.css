@@ -1,0 +1,135 @@
+header {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%; 
+  display: flex;
+  align-items: center; 
+  background-color: #D2E8E3; 
+  padding: 10px 20px; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+  z-index: 1000; 
+}
+
+header .icon {
+  height: 40px; 
+  width: auto; 
+  margin-left: 10px; 
+}
+
+h1 {
+  color: #2C3532; 
+  font-family: 'Poppins', sans-serif;
+  margin-left: 10px; 
+  font-size: 24px; 
+}
+
+nav ul {
+  list-style: none; 
+  display: flex; 
+  gap: 20px;
+  margin-left: 100px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #2C3532; 
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  margin-right: 80px;
+}
+
+nav ul li a:hover {
+  text-decoration: none; 
+  border-bottom: 3px solid #2C3532; 
+}
+
+.signin-button {
+  position: absolute;
+  right: 100px;
+  background-color: #2C3532; 
+  color: #FFFFFF; 
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  padding: 8px 16px; 
+  border-radius: 20px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+/* Calendar container */
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 10px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Calendar grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr); /* Time column + 7 days */
+  grid-template-rows: auto; 
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-top: 80px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Time column */
+.time-column {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.time-slot {
+  height: 60px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+
+.days-row {
+  grid-column: 2 / 9; 
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #f1f1f1;
+  z-index: 100; 
+  position: sticky; 
+  top: 100px;
+  border: 1px solid #ccc;
+}
+
+.day-header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  border-right: 1px solid #ccc;
+  background-color: #f1f1f1; 
+}
+
+/* Grid content */
+.grid-content {
+  grid-column: 2 / 9; 
+  grid-row: 2 / -1; 
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); 
+  grid-auto-rows: 60px; 
+  grid-auto-flow: row; 
+}
+
+.grid-content {
+  border: 1px solid #ccc; 
+  box-sizing: border-box; 
+}
