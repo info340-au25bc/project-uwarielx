@@ -32,7 +32,7 @@ header .icon {
   margin-left: 10px;
 }
 
-.signin-button{
+.profile-button{
   position:absolute; 
   right:100px;        
   top:50%; 
@@ -43,15 +43,15 @@ header .icon {
   display:inline-flex; 
   align-items:center; 
   justify-content:center;
-  background:#2C3532;           
+  background:#D2E8E3;           
   border:0; 
   border-radius:20px; 
   cursor:pointer;
   outline:2px solid #DBB08C;     
 }
-.signin-button:hover{ filter:brightness(.95); }
-.signin-button img{
-  width:22px; height:22px;           
+.profile-button:hover{ filter:brightness(.95); }
+.profile-button img{
+  width:42px; height:42px;           
   display:block; object-fit:contain;
 }
 
