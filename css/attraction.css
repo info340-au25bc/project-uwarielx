@@ -238,32 +238,6 @@ nav ul li a:hover {
     background:#FFFFFF; 
 }
 
-/* Button action row */
-.bottom-bar{
-  position:sticky; 
-  bottom:0; 
-  background:#D2E8E3; 
-  padding:10px 16px; 
-  display:flex; 
-  gap:25px; 
-  justify-content:center; 
-  align-items:center;
-}
-
-.btn-pill{
-  display:inline-flex; 
-  align-items:center; 
-  justify-content:center;
-  padding:10px 18px; 
-  font-weight:700; 
-  font-size:16px;
-  color:#2C3532; 
-  background:#FFFFFF; 
-  border:2px solid #DBB08C; 
-  border-radius:999px;
-}
-
-.btn-pill:hover{ text-decoration:none; box-shadow:0 0 0 2px #DBB08C inset; }
 
 /* Models */
 .overlay{
