@@ -19,60 +19,69 @@
     <nav>
         <ul>
           <li><a href="#planner">Planner</a></li>
-          <li><a href="#map">Map</a></li>
           <li><a href="#attractions">Attractions</a></li>
           <li><a href="#saved">Saved</a></li>
         </ul>
     </nav>
     <div class="signin-button">Sign In</div>
   </header>
-  <main class="calendar-container">
-    <div class="calendar-grid">
 
-        <!-- Days of the week -->
-      <div class="days-row">
-        <div class="day-header">Sunday</div>
-        <div class="day-header">Monday</div>
-        <div class="day-header">Tuesday</div>
-        <div class="day-header">Wednesday</div>
-        <div class="day-header">Thursday</div>
-        <div class="day-header">Friday</div>
-        <div class="day-header">Saturday</div>
+  <section id="planner">
+    <div class="planner-header">
+      <h2 class="planner-title">Travel to Paris, France</h2>
+      <div class="planner-buttons">
+        <button class="share-btn">Share</button>
+        <button class="heart-btn">&#9825;</button> <!-- Unicode for an empty heart -->
       </div>
-      
-      <!-- Time column -->
-      <div class="time-column">
-        <div class="time-slot">12 AM</div>
-        <div class="time-slot">1 AM</div>
-        <div class="time-slot">2 AM</div>
-        <div class="time-slot">3 AM</div>
-        <div class="time-slot">4 AM</div>
-        <div class="time-slot">5 AM</div>
-        <div class="time-slot">6 AM</div>
-        <div class="time-slot">7 AM</div>
-        <div class="time-slot">8 AM</div>
-        <div class="time-slot">9 AM</div>
-        <div class="time-slot">10 AM</div>
-        <div class="time-slot">11 AM</div>
-        <div class="time-slot">12 PM</div>
-        <div class="time-slot">1 PM</div>
-        <div class="time-slot">2 PM</div>
-        <div class="time-slot">3 PM</div>
-        <div class="time-slot">4 PM</div>
-        <div class="time-slot">5 PM</div>
-        <div class="time-slot">6 PM</div>
-        <div class="time-slot">7 PM</div>
-        <div class="time-slot">8 PM</div>
-        <div class="time-slot">9 PM</div>
-        <div class="time-slot">10 PM</div>
-        <div class="time-slot">11 PM</div>
-        <div class="time-slot">12 AM</div>
-      </div>
-  
-      <!-- Grid content -->
-      <div class="grid-content"></div>
     </div>
-  </main>
+    <div class="table-container">
+      <div class="scrollable-table">
+        <table class="itinerary-table">
+          <thead>
+            <tr>
+              <th class="arrow-cell">
+                <button class="arrow-btn left-arrow">&#x25C0;</button>
+                <button class="arrow-btn right-arrow">&#x25B6;</button>
+              </th>
+              <th>Day 1</th>
+              <th>Day 2</th>
+              <th>Day 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Morning</td>
+            </tr>
+            <tr>
+              <td>Afternoon</td>
+            </tr>
+            <tr>
+              <td>Evening</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="saved-attractions">
+    <h2>Saved Attractions</h2>
+    <div class="attractions-container">
+      <div class="attraction-card">
+        <h3>Louvre Museum</h3>
+        <p>Opens Sunday, Monday, Thursday, Saturday 9:00-18:00 and Wednesday, Friday 9:00-21:00</p>
+      </div>
+      <div class="attraction-card">
+        <h3>Eiffel Tower</h3>
+        <p>Opens 9:30-23:00 everyday</p>
+      </div>
+      <div class="attraction-card">
+        <h3>Musée d'Orsay</h3>
+        <p>Opend Sunday, Tuesday, Wednesday, Friday, Saturday 9:30-18:00 and Thursday 9:30-21:45</p>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer">
     <!-- footer content goes here -->
   </footer>
