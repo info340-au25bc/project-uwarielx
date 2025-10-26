@@ -1,110 +1,216 @@
-:root{
-    --ink:#2C3532;    
-    --teal:#0F6466;  
-    --tan:#D8B08C;    
-    --peach:#FFCB9A;  
-    --mint:#D2E8E3;   
-    --border:#e5e7eb;
-    --muted:#6b7280;
-    --radius:16px;
-  }
-  
- header {
-  position: fixed; 
+header {
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%; 
+  width: 100%;
   display: flex;
-  align-items: center; 
-  background-color: #D2E8E3; 
-  padding: 10px 20px; 
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
-  z-index: 1000; 
+  align-items: center;
+  background-color: #D2E8E3;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 header .icon {
   height: 40px;
-  margin-left: 10px; 
+  margin-left: 10px;
 }
 
-.profile-button{
-  position:absolute; 
-  right:100px; 
-  top:50%; 
-  transform:translateY(-50%);
-  width:50px; 
-  height:50px; 
-  padding:0;
-  display:inline-flex; 
-  align-items:center; 
-  justify-content:center;
-  background:#D2E8E3; 
-  border:0; 
-  border-radius:20px; 
-  cursor:pointer;
+.profile-button {
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #D2E8E3;
+  border: 0;
+  border-radius: 20px;
+  cursor: pointer;
 }
-.profile-button:hover{ filter:brightness(0.92); }
 
-.profile-button img{ 
-    width:48px; 
-    height:48px; 
-    display:block; 
-    object-fit:contain; 
+.profile-button:hover {
+  filter: brightness(0.92);
+}
+
+.profile-button img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  object-fit: contain;
 }
 
 h1 {
-  color: #2C3532; 
+  color: #2C3532;
   font-family: 'Poppins', sans-serif;
-  margin-left: 10px; 
-  font-size: 24px; 
+  margin-left: 10px;
+  font-size: 24px;
 }
 
 nav ul {
-  list-style: none; 
-  display: flex; 
+  list-style: none;
+  display: flex;
   gap: 20px;
   margin-left: 100px;
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #2C3532; 
+  color: #2C3532;
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
   margin-right: 80px;
 }
 
 nav ul li a:hover {
-  text-decoration: none; 
-  border-bottom: 3px solid #2C3532; 
+  text-decoration: none;
+  border-bottom: 3px solid #2C3532;
 }
 
-  
-  .page{padding-top:92px; max-width:1100px; margin:0 auto; padding-inline:20px;}
-  .topbar{display:flex; align-items:center; justify-content:space-between; margin:18px 0;}
-  .topbar h2{margin:0; font-size:28px; color:var(--ink);}
-  button{font:inherit; border:1px solid var(--border); border-radius:999px; padding:8px 14px; background:#fff; cursor:pointer;}
-  button.primary{background:var(--teal); color:#fff; border-color:transparent;}
-  .badge{display:inline-block; padding:2px 8px; border-radius:999px; background:var(--peach); color:#7a4a10; font-size:12px}
-  
-  .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fill, minmax(220px,1fr));}
-  .card{background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,.06); position:relative;}
-  .thumb{aspect-ratio:4/3; background:#f3f5f4; display:grid; place-items:center; overflow:hidden;}
-  .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
-  .card .meta{padding:10px 12px;}
-  .card .title{margin:0 0 4px; font-weight:600; color:var(--ink);}
-  .card .sub{margin:0; font-size:12px; color:var(--muted);}
-  
-  .pill{position:absolute; top:8px; left:8px; background:rgba(0,0,0,.6); color:#fff; font-size:12px; padding:4px 8px; border-radius:999px;}
-  
-  .check{position:absolute; top:10px; right:10px; display:none;}
-  .editing .check{display:block;}
+.page {
+  padding-top: 92px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-inline: 20px;
+}
 
-  .actionbar{position:fixed; left:50%; transform:translateX(-50%); bottom:20px;
-    background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 12px;
-    box-shadow:0 8px 20px rgba(0,0,0,.1); display:none; gap:8px; align-items:center;}
-  .editing .actionbar{display:flex;}
-  .actionbar .count{color:var(--muted); margin-right:6px;}
-  
-  .empty{padding:32px; color:var(--muted); text-align:center; border:1px dashed var(--border); border-radius:var(--radius);}
-  
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 0;
+}
+
+.topbar h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #2C3532;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+button.primary {
+  background: #0F6466;
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #FFCB9A;
+  color: #7a4a10;
+  font-size: 12px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.thumb {
+  aspect-ratio: 4 / 3;
+  background: #f3f5f4;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card .meta {
+  padding: 10px 12px;
+}
+
+.card .title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: #2C3532;
+}
+
+.card .sub {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.pill {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+}
+
+.editing .check {
+  display: block;
+}
+
+.actionbar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: none;
+  gap: 8px;
+  align-items: center;
+}
+
+.editing .actionbar {
+  display: flex;
+}
+
+.actionbar .count {
+  color: #6b7280;
+  margin-right: 6px;
+}
+
+.empty {
+  padding: 32px;
+  color: #6b7280;
+  text-align: center;
+  border: 1px dashed #e5e7eb;
+  border-radius: 16px;
+}
