@@ -224,7 +224,7 @@ nav ul li a:hover {
 }
 
 
-/* Features */
+/* Detail page -Features */
 .detail-features{ 
     list-style:none; 
     margin:12px 0 0; 
@@ -242,7 +242,7 @@ nav ul li a:hover {
 }
 
 
-/* Models */
+/* Detail page -Models */
 .detail-overlay{
   position:fixed; 
   inset:0; 
