@@ -47,53 +47,65 @@
           The Hollywood Walk of Fame features more than 2,700 brass stars embedded
           along Hollywood Boulevard and Vine Street, honoring notable figures in entertainment.
         </p>
-        <p class="links">
+        <p class="detail-links">
               <a target="_blank" rel="noopener"
                  href="https://www.google.com/maps/search/?api=1&query=Hollywood%20Walk%20of%20Fame%2034.1019,-118.3269">
                  Open in Google Maps</a>
         </p>
-        <button id="wishBtn" class="chip-heart" type="button" aria-haspopup="dialog" aria-controls="confirmModal">
+        <button id="detail-wishBtn" class="detail-chip-heart" type="button" aria-haspopup="dialog" aria-controls="confirmModal">
           ♡ wish
         </button>
       </div>
 
       <!-- Features -->
-      <ul class="features">
-        <li class="feature">Family-friendly</li>
-        <li class="feature">Open 24h</li>
-        <li class="feature">Nearby transit</li>
+      <ul class="detail-features">
+        <li class="detail-feature">Family-friendly</li>
+        <li class="detail-feature">Open 24h</li>
+        <li class="detail-feature">Nearby transit</li>
       </ul>
     </section>
   </main>
 
   <!--  confirm modal -->
-  <div id="confirmModal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
-    <div class="modal">
-      <h2 id="confirm-title">Save to wishlist?</h2>
-      <div class="modal-actions">
-        <button id="cancelConfirm" class="btn-outline" type="button">Cancel</button>
-        <button id="goSave" class="btn-solid" type="button">Save</button>
+  <div id="detail-confirmModal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
+    <div class="detail-modal">
+      <h2 id="detail-confirm-title">Save to wishlist?</h2>
+      <div class="detail-modal-actions">
+        <button id="detail-cancelConfirm" class="btn-outline" type="button">Cancel</button>
+        <button id="detail-goSave" class="btn-solid" type="button">Save</button>
       </div>
     </div>
   </div>
 
   <!-- folder selection modal -->
-  <div id="folderModal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title" hidden>
-    <div class="modal">
-      <h2 id="wl-title">Save to wishlist</h2>
-      <form class="modal-form">
-        <label class="radio">
-          <input type="radio" name="folder" checked />
-          <span>LA</span>
-        </label>
-        <label class="radio">
-          <input type="radio" name="folder" />
-          <span>New folder</span>
-        </label>
-        <input class="input full" type="text" placeholder="Type a folder name…" />
-        <div class="modal-actions">
-          <button id="cancelFolder" class="btn-outline" type="button">Cancel</button>
-          <button id="saveFolder" class="btn-solid" type="button">Save</button>
+  <div id="detail-folderModal" class="detail-overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title" hidden>
+    <div class="detail-modal">
+      <h2 id="detail-wl-title">Save to wishlist</h2>
+      <form class="detail-modal-form">
+        <form>
+          <div class="detail-radio">
+            <input
+              type="radio"
+              id="detail-folder-la"
+              name="folder"
+              checked
+            />
+            <label for="folder-la">LA</label>
+          </div>
+
+          <div class="detail-radio">
+            <input
+              type="radio"
+              id="folder-new"
+              name="folder"
+            />
+            <label for="folder-new">New folder</label>
+          </div>
+        </form>
+        <input class="detail-input full" type="text" placeholder="Type a folder name…" />
+        <div class="detail-modal-actions">
+          <button id="detail-cancelFolder" class="detail-btn-outline" type="button">Cancel</button>
+          <button id="detail-saveFolder" class="detail-btn-solid" type="button">Save</button>
         </div>
       </form>
     </div>
