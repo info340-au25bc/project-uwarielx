@@ -1,232 +1,224 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>TripWeaver – Calendar Share</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Static mockup of a weekly itinerary planner with events and flights." />
+  <meta name="author" content="Ariel Xia" />
+  <title>Itinerary Planner — Index</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="calendar-share.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header role="banner">
-    <img class="icon" src="img/webpage-brand-logo.png" alt="TripWeaver logo" />
+  <header class="site-header">
+    <img src="img/webpage-brand-logo.png" alt="Tripweaver Icon" class="icon">
     <h1>TripWeaver</h1>
-    <nav aria-label="Primary">
-      <ul>
-        <li><a href="index.html">Planner</a></li>
-        <li><a href="attraction-search.html">Attractions</a></li>
-        <li><a href="saved.html">Saved</a></li>
-      </ul>
+    <nav>
+        <ul>
+          <li><a href="index.html">Planner</a></li>
+          <li><a href="attraction-search.html">Attractions</a></li>
+          <li><a href="saved.html">Saved</a></li>
+        </ul>
     </nav>
-
-    <select id="currentUser" class="user-select" title="Current user">
-      <option value="owner@tripweaver.com">owner@tripweaver.com(Owner)</option>
-      <option value="cynthia@tripweaver.com">cynthia@tripweaver.com</option>
-      <option value="ariel@tripweaver.com">ariel@tripweaver.com</option>
-      <option value="bh62@tripweaver.com" selected>bh62@tripweaver.com(me)</option>
-    </select>
-
-    <button class="profile-button" type="button" aria-label="Profile">
-      <img src="img/profile.png" alt="profile button">
-    </button>
+    <div class="signin-button">Sign In</div>
   </header>
 
-  <main class="page">
-    <div class="toolbar">
-      <button id="btnShare" class="primary">Share</button>
-      <button id="btnAdd"  class="primary">Add Event</button>
-      <span class="badge" id="permBadge">View only</span>
-      <span style="color:#6b7280;">(Demo：Select the account in the upper right corner to simulate login identity)</span>
+  <section id="planner">
+    <div class="planner-header">
+      <h2 class="planner-title">Travel to Paris, France</h2>
+      <div class="planner-buttons">
+        <button class="share-btn">Share</button>
+        <button class="heart-btn">&#9825;</button>
+      </div>
     </div>
-
-    <section class="cal" id="calendar">
-      <div class="days">
-        <div></div>
-        <div>Sunday</div><div>Monday</div><div>Tuesday</div><div>Wednesday</div>
-        <div>Thursday</div><div>Friday</div><div>Saturday</div>
+    <div class="table-container">
+      <div class="scrollable-table">
+        <table class="itinerary-table">
+          <thead>
+            <tr>
+              <th class="arrow-cell">
+                <button class="arrow-btn left-arrow">&#x25C0;</button>
+                <button class="arrow-btn right-arrow">&#x25B6;</button>
+              </th>
+              <th>Day 1</th>
+              <th>Day 2</th>
+              <th>Day 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Morning</td>
+            </tr>
+            <tr>
+              <td>Afternoon</td>
+            </tr>
+            <tr>
+              <td>Evening</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="grid">
-        <div class="time-col" id="timeCol"></div>
-        <div class="day-col" data-day="0"></div>
-        <div class="day-col" data-day="1"></div>
-        <div class="day-col" data-day="2"></div>
-        <div class="day-col" data-day="3"></div>
-        <div class="day-col" data-day="4"></div>
-        <div class="day-col" data-day="5"></div>
-        <div class="day-col" data-day="6"></div>
+    </div>
+  </section>
+
+  <section id="saved-attractions">
+    <h2>Saved Attractions</h2>
+    <div class="attractions-container">
+      <div class="attraction-card">
+        <h3>Louvre Museum</h3>
+        <p>Opens Sunday, Monday, Thursday, Saturday 9:00-18:00 and Wednesday, Friday 9:00-21:00</p>
       </div>
-    </section>
-  </main>
-
-  <div class="modal-backdrop" id="shareModal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
-      <h3 id="shareTitle">Share “Trip Plan”</h3>
-
-      <div class="row">
-        <input id="emailInput" type="text" placeholder="Add people by email…" style="flex:1" />
-        <select id="roleSelect">
-          <option value="editor">Editor</option>
-          <option value="viewer">Viewer</option>
-        </select>
-        <button class="primary" id="addBtn">Add</button>
+      <div class="attraction-card">
+        <h3>Eiffel Tower</h3>
+        <p>Opens 9:30-23:00 everyday</p>
       </div>
+      <div class="attraction-card">
+        <h3>Musée d'Orsay</h3>
+        <p>Opend Sunday, Tuesday, Wednesday, Friday, Saturday 9:30-18:00 and Thursday 9:30-21:45</p>
+      </div>
+    </div>
+  </section>
 
-      <h4 style="margin:8px 0 4px;">People with access</h4>
-      <div class="acl" id="aclList"></div>
+  <footer class="site-footer"></footer>
 
-      <div class="foot">
-        <button id="closeShare">Done</button>
+  <div class="share-overlay" id="shareOverlay" aria-hidden="true" role="dialog">
+    <div class="share-panel" role="document" aria-label="Share Trip Plan">
+      <div class="share-head">
+        <div class="share-title">Share “Trip Plan”</div>
+        <button class="share-close" id="shareClose" aria-label="Close">×</button>
+      </div>
+      <div class="share-section">
+        <div class="share-input-row">
+          <input type="email" id="inviteEmail" class="share-input" placeholder="Add people by email..." />
+          <select id="inviteRole" class="share-select">
+            <option value="editor">Editor</option>
+            <option value="viewer">Viewer</option>
+          </select>
+          <button class="share-add" id="inviteAdd">Add</button>
+        </div>
+      </div>
+      <div class="share-section">
+        <div class="share-subtitle">People with access</div>
+        <ul class="share-list" id="peopleList"></ul>
+      </div>
+      <div class="share-foot">
+        <button class="share-done" id="shareDone">Done</button>
       </div>
     </div>
   </div>
 
-  <footer class="site-footer">
-    <p>Draft demo · No backend · No libraries</p>
-  </footer>
-
   <script>
+    const openBtn = document.querySelector('.share-btn');
+    const overlay = document.getElementById('shareOverlay');
+    const closeBtn = document.getElementById('shareClose');
+    const doneBtn = document.getElementById('shareDone');
+    const inviteEmail = document.getElementById('inviteEmail');
+    const inviteRole = document.getElementById('inviteRole');
+    const inviteAdd = document.getElementById('inviteAdd');
+    const peopleList = document.getElementById('peopleList');
 
-    const $  = (s, c=document)=>c.querySelector(s);
-    const $$ = (s, c=document)=>Array.from(c.querySelectorAll(s));
-
-    for(let h=8; h<=20; h++){
-      const div=document.createElement('div');
-      const ampm = h<12?'AM':'PM';
-      const hh = h<=12? h : (h-12);
-      div.textContent = hh + ':00 ' + ampm;
-      $('#timeCol').appendChild(div);
-    }
-    $$('.day-col').forEach(col=>{
-      for(let i=0;i<=12;i++){
-        const cell=document.createElement('div');
-        cell.className='cell';
-        cell.dataset.day=col.dataset.day;
-        cell.dataset.slot=i; 
-        col.appendChild(cell);
-      }
-    });
-
-    const state = {
-      events: {}, 
-      acl: [
-        {email:'owner@tripweaver.com', role:'owner'},
-        {email:'bh62@tripweaver.com',    role:'editor'}
+    const accessState = {
+      people: [
+        { email: 'owner@tripweaver.com', role: 'owner' },
+        { email: 'bh62@tripweaver.com', role: 'editor' }
       ]
     };
 
-    const userSel = $('#currentUser');
-    function currentUser(){ return userSel.value; }
-    function roleOf(email){
-      const u = state.acl.find(x=>x.email===email);
-      return u ? u.role : 'viewer';
-    }
-    function canEdit(){
-      const r = roleOf(currentUser());
-      return r==='owner' || r==='editor';
+    function isValidEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     }
 
-    function refreshEditable(){
-      const editable = canEdit();
-      $('#permBadge').textContent = editable ? 'Can edit' : 'View only';
-      $$('.cell').forEach(c=>{
-        c.classList.toggle('editable', editable);
-      });
+    function openShare() {
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      inviteEmail.focus();
     }
 
-    function renderACL(){
-      const wrap = $('#aclList');
-      wrap.innerHTML='';
-      state.acl.forEach((u,i)=>{
-        const row=document.createElement('div');
-        row.className='acl-item';
-        row.innerHTML = `
-          <div style="flex:1">
-            <div style="font-weight:600">${u.email}</div>
-            <div style="font-size:12px; color:#6b7280">${u.role}</div>
-          </div>
-          <select data-i="${i}" ${u.role==='owner'?'disabled':''}>
-            <option value="editor" ${u.role==='editor'?'selected':''}>Editor</option>
-            <option value="viewer" ${u.role==='viewer'?'selected':''}>Viewer</option>
-          </select>
-          ${u.role==='owner' ? '' : `<button data-del="${i}">Remove</button>`}
-        `;
-        wrap.appendChild(row);
-      });
+    function closeShare() {
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     }
 
-    function renderEvents(){
-      $$('.cell').forEach(c=>{
-        const key = c.dataset.day + '-' + c.dataset.slot;
-        c.innerHTML='';
-        if(state.events[key]){
-          const ev = document.createElement('div');
-          ev.className='event ' + (state.events[key].author===currentUser() ? 'me':'other');
-          ev.textContent = state.events[key].text;
-          c.appendChild(ev);
+    function renderPeople() {
+      peopleList.innerHTML = '';
+      accessState.people.forEach((p, idx) => {
+        const li = document.createElement('li');
+        li.className = 'share-item';
+
+        const left = document.createElement('div');
+        left.className = 'share-item-left';
+
+        const email = document.createElement('div');
+        email.className = 'share-item-email';
+        email.textContent = p.email;
+
+        const roleSmall = document.createElement('div');
+        roleSmall.className = 'share-item-role-small';
+        roleSmall.textContent = p.role;
+
+        left.appendChild(email);
+        left.appendChild(roleSmall);
+
+        const right = document.createElement('div');
+        right.className = 'share-item-right';
+
+        if (p.role === 'owner') {
+          const disabled = document.createElement('button');
+          disabled.className = 'share-select-disabled';
+          disabled.textContent = 'Editor';
+          disabled.disabled = true;
+          right.appendChild(disabled);
+        } else {
+          const select = document.createElement('select');
+          select.className = 'share-select';
+          select.innerHTML = '<option value="editor">Editor</option><option value="viewer">Viewer</option>';
+          select.value = p.role === 'editor' ? 'editor' : 'viewer';
+          select.addEventListener('change', () => {
+            p.role = select.value === 'editor' ? 'editor' : 'viewer';
+            roleSmall.textContent = p.role;
+          });
+
+          const remove = document.createElement('button');
+          remove.className = 'share-remove';
+          remove.textContent = 'Remove';
+          remove.addEventListener('click', () => {
+            accessState.people.splice(idx, 1);
+            renderPeople();
+          });
+
+          right.appendChild(select);
+          right.appendChild(remove);
         }
+
+        li.appendChild(left);
+        li.appendChild(right);
+        peopleList.appendChild(li);
       });
     }
 
-    $('#btnAdd').addEventListener('click', ()=>{
-      if(!canEdit()){ alert('This user is view-only.'); return; }
-      const day = prompt('Day (0=Sun ... 6=Sat):', '0');
-      const slot = prompt('Timeslot index (0=8AM ... 12=8PM):', '0');
-      const text = prompt('Event text:', 'Visit museum');
-      if(day===null || slot===null || text===null) return;
-      const key = day + '-' + slot;
-      state.events[key] = { text: text.trim(), author: currentUser() };
-      renderEvents();
-    });
+    function addInvite() {
+      const email = inviteEmail.value.trim();
+      const role = inviteRole.value === 'viewer' ? 'viewer' : 'editor';
+      if (!isValidEmail(email)) return;
+      const exists = accessState.people.some(p => p.email.toLowerCase() === email.toLowerCase());
+      if (exists) return;
+      accessState.people.push({ email, role });
+      inviteEmail.value = '';
+      inviteRole.value = 'editor';
+      renderPeople();
+    }
 
-    document.addEventListener('dblclick', e=>{
-      const cell = e.target.closest('.cell');
-      if(!cell) return;
-      if(!canEdit()){ return; }
-      const key = cell.dataset.day + '-' + cell.dataset.slot;
-      const old = state.events[key]?.text || '';
-      const val = prompt('Add / edit event', old);
-      if(val===null) return;
-      const t = val.trim();
-      if(t===''){ delete state.events[key]; }
-      else{ state.events[key] = { text:t, author: currentUser() }; }
-      renderEvents();
-    });
+    openBtn.addEventListener('click', openShare);
+    closeBtn.addEventListener('click', closeShare);
+    doneBtn.addEventListener('click', closeShare);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeShare(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeShare(); if (e.key === 'Enter' && overlay.getAttribute('aria-hidden') === 'false' && document.activeElement === inviteEmail) { addInvite(); }});
+    inviteAdd.addEventListener('click', addInvite);
 
-    const modal = $('#shareModal');
-    $('#btnShare').onclick = ()=>{ modal.classList.add('show'); renderACL(); $('#emailInput').value=''; };
-    $('#closeShare').onclick = ()=> modal.classList.remove('show');
-
-    $('#addBtn').onclick = ()=>{
-      const email = $('#emailInput').value.trim();
-      const role  = $('#roleSelect').value;
-      if(!email) return;
-      if(state.acl.some(u=>u.email===email)){ alert('Already shared with this email.'); return; }
-      state.acl.push({email, role});
-      renderACL();
-    };
-
-    $('#aclList').addEventListener('change', e=>{
-      const sel = e.target.closest('select[data-i]');
-      if(!sel) return;
-      const i = +sel.dataset.i;
-      state.acl[i].role = sel.value;
-      refreshEditable();
-      renderACL();
-    });
-    $('#aclList').addEventListener('click', e=>{
-      const del = e.target.closest('button[data-del]');
-      if(!del) return;
-      const i = +del.dataset.del;
-      state.acl.splice(i,1);
-      refreshEditable();
-      renderACL();
-    });
-
-    userSel.addEventListener('change', ()=>{ refreshEditable(); renderEvents(); });
-
-    refreshEditable();
-    renderEvents();
+    renderPeople();
   </script>
 </body>
 </html>
