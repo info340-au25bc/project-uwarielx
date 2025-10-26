@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TripWeaver – Minimal JS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A simple trip planner layout with a Leaflet map using minimal JavaScript." />
+  <meta name="author" content="Yuxin Jin" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="css/Map.css" />
+</head>
+<body>
+  <header role="banner">
+    <img class="icon" src="img/webpage-brand-logo.png" alt="TripWeaver logo" />
+    <h1>TripWeaver</h1>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#planner">Planner</a></li>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#attractions">Attractions</a></li>
+        <li><a href="#saved">Saved</a></li>
+      </ul>
+    </nav>
+    <button class="profile-button" type="button" aria-label="Profile">
+      <img src="img/profile.png" alt="profile button">
+    </button>
+  </header>
+ 
+  <main id="planner" class="wrap">
+    <!-- Left: itinerary -->
+    <aside class="panel" aria-labelledby="day1-title">
+      <h2 id="day1-title" class="panel-title">Day 1 Schedule</h2>
+      <ol class="place-list">
+
+        <!-- 1 -->
+        <li class="place-item"
+            data-n="1"
+            data-lat="34.0527" data-lng="-118.2566">
+          <div class="badge">1</div>
+          <div class="text">
+            <div class="name"><strong>The Westin Bonaventure Hotel</strong></div>
+            <div class="meta">09:00 · 404 S Figueroa St, Los Angeles, CA</div>
+            <div class="hours">Open 24h</div>
+            <p class="links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=The%20Westin%20Bonaventure%20Hotel%2034.0527,-118.2566">
+                 Open in Google Maps</a>
+            </p>
+          </div>
+        </li>
+
+        <!-- 2 -->
+        <li class="place-item"
+            data-n="2"
+            data-lat="34.0617" data-lng="-118.3090">
+          <div class="badge">2</div>
+          <div class="text">
+            <div class="name"><strong>Koreatown</strong></div>
+            <div class="meta">11:30 · 3775 Wilshire Blvd, Los Angeles, CA</div>
+            <div class="hours">11:00-22:00</div>
+            <p class="links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Koreatown%2034.0617,-118.3090">
+                 Open in Google Maps</a>
+            </p>
+          </div>
+        </li>
+
+        <!-- 3 -->
+        <li class="place-item"
+            data-n="3"
+            data-lat="34.1019" data-lng="-118.3269">
+          <div class="badge">3</div>
+          <div class="text">
+            <div class="name"><strong>Hollywood Walk of Fame</strong></div>
+            <div class="meta">14:00 · Hollywood Blvd, Los Angeles, CA</div>
+            <div class="hours">Open 24h</div>
+            <p class="links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Hollywood%20Walk%20of%20Fame%2034.1019,-118.3269">
+                 Open in Google Maps</a>
+            </p>
+          </div>
+        </li>
+
+        <!-- 4 -->
+        <li class="place-item"
+            data-n="4"
+            data-lat="34.0094" data-lng="-118.4973">
+          <div class="badge">4</div>
+          <div class="text">
+            <div class="name"><strong>Santa Monica Pier</strong></div>
+            <div class="meta">17:00 · 200 Santa Monica Pier, Santa Monica, CA</div>
+            <div class="hours">06:00-22:00</div>
+            <p class="links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Santa%20Monica%20Pier%2034.0094,-118.4973">
+                 Open in Google Maps</a>
+            </p>
+          </div>
+        </li>
+
+        <!-- 5 -->
+        <li class="place-item"
+            data-n="5"
+            data-lat="34.0120" data-lng="-118.2846">
+          <div class="badge">5</div>
+          <div class="text">
+            <div class="name"><strong>BMO Stadium</strong></div>
+            <div class="meta">19:00 · 3939 S Figueroa St, Los Angeles, CA</div>
+            <div class="hours">Event hours</div>
+            <p class="links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=BMO%20Stadium%2034.0120,-118.2846">
+                 Open in Google Maps</a>
+            </p>
+          </div>
+        </li>
+
+      </ol>
+    </aside>
+
+    <!-- Right:Leaflet map-->
+    <section class="map-area">
+      <div id="map" aria-label="Trip map"></div>
+      <div class="legend" aria-hidden="true">
+        <strong>Legend</strong>
+        <p><span class="dot"></span> Numbered stops · Click a pin for details</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p> Tiles by OpenStreetMap via Leaflet.</p>
+  </footer>
+</body>
+</html>
+
+
