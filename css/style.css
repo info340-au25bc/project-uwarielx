@@ -52,7 +52,7 @@ nav ul li a:hover {
 
 /* Sign-In Button */
 .signin-button {
-  position: absolute;
+  position: fixed;
   right: 100px;
   background-color: #2C3532; 
   color: #FFFFFF; 
@@ -143,9 +143,10 @@ nav ul li a:hover {
 
 /* Saved Attractions Sidebar */
 #saved-attractions {
-  position: absolute;
-  top: 100px;
-  right: 0;
+  position: relative;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: 0;
   width: 25%; 
   height: 100%;
   background-color: #f9f9f9;
