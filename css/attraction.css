@@ -2,12 +2,16 @@
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{
-  margin:0; padding-top:72px;
+  margin:0; 
+  padding-top:72px;
   font-family: 'Poppins', sans-serif;
   color:#2C3532;          
   background:#D2E8E3;       
 }
-a{ color:#0F6466; text-decoration:none; }
+a{ 
+  color:#0F6466; 
+  text-decoration:none; 
+}
 a:hover{ text-decoration:underline; }
 
 /* Header */
