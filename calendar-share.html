@@ -7,13 +7,12 @@
   <meta name="author" content="Ariel Xia" />
   <title>Itinerary Planner — Index</title>
   <link rel="icon" href="favicon.ico" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="calendar-share.css" />
+  <link rel="stylesheet" href="css/base.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <header class="site-header">
+<body class="planner-page">
+  <header>
     <img src="img/webpage-brand-logo.png" alt="Tripweaver Icon" class="icon">
     <h1>TripWeaver</h1>
     <nav>
@@ -23,10 +22,10 @@
           <li><a href="saved.html">Saved</a></li>
         </ul>
     </nav>
-    <div class="signin-button">Sign In</div>
+    <button class="signin-button">Sign In</button>
   </header>
 
-  <section id="planner">
+  <section id="planner-content">
     <div class="planner-header">
       <h2 class="planner-title">Travel to Paris, France</h2>
       <div class="planner-buttons">
@@ -82,10 +81,6 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p >
-  </footer>
-
   <div class="share-overlay" id="shareOverlay" aria-hidden="true" role="dialog">
     <div class="share-panel" role="document" aria-label="Share Trip Plan">
       <div class="share-head">
@@ -111,6 +106,10 @@
       </div>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p >
+  </footer>
 
   <script>
     const openBtn = document.querySelector('.share-btn');

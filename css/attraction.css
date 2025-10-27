@@ -1,4 +1,10 @@
-/* Base */
+/* General Layout */
+body {
+  display: flex;
+  flex-direction: row;
+}
+
+/* General Layout */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{
@@ -301,6 +307,7 @@ nav ul li a:hover {
   padding:6px 12px;
 }
 
+
 /* Footer */
 .site-footer{
   margin:5px; 
@@ -312,8 +319,11 @@ nav ul li a:hover {
   border-radius:8px;
 }
 
+
 /* Responsive */
 @media (max-width: 920px){
   .row{ grid-template-columns:1fr 1fr; }
   .detail-photo img{ height:240px; }
 }
+
+

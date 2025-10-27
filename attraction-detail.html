@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TripWeaver — Attraction Detail</title>
   <link rel="icon" href="favicon.ico" />
-  <link rel="stylesheet" href="css/attraction.css" />
+  <link rel="stylesheet" href="css/base.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -67,7 +67,7 @@
   </main>
 
   <!--  confirm modal -->
-  <div id="detail-confirmModal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
+  <div id="detail-confirmModal" class="detail-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
     <div class="detail-modal">
       <h2 id="detail-confirm-title">Save to wishlist?</h2>
       <div class="detail-modal-actions">
@@ -96,7 +96,7 @@
           <div class="detail-radio">
             <input
               type="radio"
-              id="folder-new"
+              id="detail-folder-new"
               name="folder"
             />
             <label for="folder-new">New folder</label>
@@ -117,13 +117,13 @@
 
   <!-- small JS -->
   <script>
-    const wishBtn = document.getElementById('wishBtn');
-    const confirmModal = document.getElementById('confirmModal');
-    const folderModal  = document.getElementById('folderModal');
-    const cancelConfirm = document.getElementById('cancelConfirm');
-    const goSave        = document.getElementById('goSave');
-    const cancelFolder  = document.getElementById('cancelFolder');
-    const saveFolder    = document.getElementById('saveFolder');
+    const wishBtn = document.getElementById('detail-wishBtn');
+    const confirmModal = document.getElementById('detail-confirmModal');
+    const folderModal  = document.getElementById('detail-folderModal');
+    const cancelConfirm = document.getElementById('detail-cancelConfirm');
+    const goSave        = document.getElementById('detail-goSave');
+    const cancelFolder  = document.getElementById('detail-cancelFolder');
+    const saveFolder    = document.getElementById('detail-saveFolder');
 
     // open first modal
     wishBtn.addEventListener('click', () => { 
