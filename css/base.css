@@ -979,3 +979,182 @@ body.planner-page .planner-content {
     max-width: 100%;
   }
 }
+
+
+/* ============================================
+   MOBILE ENHANCEMENTS (SMALL SCREENS)
+   ============================================ */
+
+/* ≤640px */
+@media (max-width: 40rem) {
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  nav ul li a {
+    font-size: 16px;
+    margin-right: 0;
+  }
+
+  .search-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .search-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .search-card {
+    grid-template-columns: 1fr;
+  }
+
+  .search-thumb {
+    height: 160px;
+  }
+
+  .detail {
+    display: block;
+  }
+
+  .detail-photo img {
+    height: 220px;
+  }
+
+  .detail-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .site-footer {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .share-panel {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+
+  body.planner-page {
+    flex-direction: column;
+  }
+
+  #saved-attractions {
+    width: 100%;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: none;
+    height: auto;
+  }
+}
+
+
+/* ============================================
+   MOBILE ENHANCEMENTS (SMALL SCREENS)
+   ============================================ */
+
+/* ≤640px */
+@media (max-width: 40rem) {
+
+  /* 顶部导航：堆叠 + 居中 */
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  nav ul li a {
+    font-size: 16px;
+    margin-right: 0;
+  }
+
+  /* 搜索页：单列显示 */
+  .search-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .search-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* 搜索卡片：竖排显示缩略图在上方 */
+  .search-card {
+    grid-template-columns: 1fr;
+  }
+
+  .search-thumb {
+    height: 160px;
+  }
+
+  /* 详情页：所有内容垂直堆叠 */
+  .detail {
+    display: block;
+  }
+
+  .detail-photo img {
+    height: 220px;
+  }
+
+  .detail-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* 保存页 / 网格内容单列 */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 页脚：减小留白 */
+  .site-footer {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* 弹窗宽度适配屏幕 */
+  .share-panel {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  /* planner 页面：侧栏移到底部堆叠 */
+  body.planner-page {
+    flex-direction: column;
+  }
+
+  #saved-attractions {
+    width: 100%;
+    position: relative;
+    margin-top: 20px;
+    box-shadow: none;
+    height: auto;
+  }
+}
