@@ -1158,3 +1158,70 @@ body.planner-page .planner-content {
     height: auto;
   }
 }
+
+/* ============================================
+   Computer ENHANCEMENTS (Large SCREENS)
+   ============================================ */
+/* >1024px */
+@media (min-width: 1024px) {
+  .wrap-narrow,
+  .page {
+    max-width: 1280px;
+    padding-inline: 24px;
+  }
+
+  .profile-button,
+  .signin-button {
+    right: 32px;
+  }
+
+  .wrap-narrow:has(.search-filters) {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .search-filters {
+    position: sticky;
+    top: 92px;
+    align-self: start;
+    border: 2px solid #DBB08C;
+    border-radius: 12px;
+  }
+  .search-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .search-cards {
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .search-card {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+  .search-thumb { 
+    height: 200px; 
+  }
+
+  .page { 
+    padding-top: 0; 
+  }
+
+  #saved-attractions {
+    position: sticky;
+    top: 92px;
+    height: calc(100vh - 120px);
+    width: auto;
+    margin-top: 0;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  }
+  body:has(#saved-attractions) {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+  }
+  #saved-attractions .attraction-card { 
+    width: 100%; 
+    left: 0; 
+  }
+}
