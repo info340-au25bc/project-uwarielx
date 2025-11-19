@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Static mockup of the saved page." />
+  <meta name="author" content="Yuxin Jin" />
+  <title>TripWeaver - Saved</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header role="banner">
+    <img class="icon" src="img/webpage-brand-logo.png" alt="TripWeaver logo" />
+    <h1>TripWeaver</h1>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Planner</a></li>
+        <li><a href="attraction-search.html">Attractions</a></li>
+        <li><a aria-current="page" href="saved.html">Saved</a></li>
+      </ul>
+    </nav>
+    <button class="profile-button" type="button" aria-label="Profile">
+      <img src="img/profile.png" alt="profile button">
+    </button>
+  </header>
+
+  <main class="page">
+    <div class="topbar">
+      <h2>Wishlists</h2>
+      <div>
+        <button id="editBtn">Edit</button>
+        <button id="newListBtn" class="primary">New list</button>
+      </div>
+    </div>
+
+    <section id="grid" class="grid" aria-label="Saved lists">
+      <article class="card" data-id="recent">
+        <div class="pill">1 week ago</div>
+        <label class="check" for="pick1">
+          <input id="pick1" type="checkbox" data-pick />
+        </label>
+        <a class="thumb" href="attractions.html">
+          <img src="img/hollywood.png" alt="Recently viewed">
+        </a>
+        <div class="meta">
+          <p class="title">Recently viewed</p>
+          <p class="sub">3 items</p>
+        </div>
+      </article>
+
+      <article class="card" data-id="la2025">
+        <div class="pill">5 saved</div>
+        <label class="check" for="pick2">
+          <input id="pick2" type="checkbox" data-pick />
+        </label>
+        <a class="thumb" href="attractions.html">
+          <img src="img/griffith.png" alt="Los Angeles Trip">
+        </a>
+        <div class="meta">
+          <p class="title">LA Weekend 2025</p>
+          <p class="sub">Saved from Attractions</p>
+        </div>
+      </article>
+
+      <article class="card" data-id="planner-nyc">
+        <div class="pill">2 saved</div>
+        <label class="check" for="pick3">
+          <input id="pick3" type="checkbox" data-pick />
+        </label>
+        <a class="thumb" href="index.html">
+          <img src="img/getty.png" alt="NYC 2025 plan">
+        </a>
+        <div class="meta">
+          <p class="title">NYC 2025</p>
+          <p class="sub">Saved from Planner</p>
+        </div>
+      </article>
+
+      <article class="card" data-id="empty">
+        <label class="check" for="pick4">
+          <input id="pick4" type="checkbox" data-pick />
+        </label>
+        <a class="thumb" href="#" aria-disabled="true" onclick="return false;">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 22l7.8-8.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+          </svg>
+        </a>
+        <div class="meta">
+          <p class="title">Create a list</p>
+          <p class="sub">Save places you love</p>
+        </div>
+      </article>
+    </section>
+
+    <p id="emptyState" class="empty" hidden>No saved lists yet.</p>
+
+    <div class="actionbar" id="actionBar" role="region" aria-label="Selection actions">
+      <span class="count" id="selCount">0 selected</span>
+      <button id="deleteBtn">Delete</button>
+      <button id="cancelBtn">Cancel</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p >
+  </footer>
+
+  <script>
+    const page = document.body;
+    const grid = document.getElementById('grid');
+    const editBtn = document.getElementById('editBtn');
+    const newListBtn = document.getElementById('newListBtn');
+    const actionBar = document.getElementById('actionBar');
+    const selCount = document.getElementById('selCount');
+    const emptyState = document.getElementById('emptyState');
+
+    function isEditing() {
+      return page.classList.contains('editing');
+    }
+
+    function updateCount() {
+      const n = grid.querySelectorAll('input[data-pick]:checked').length;
+      selCount.textContent = n + (n === 1 ? ' selected' : ' selected');
+    }
+
+    function checkEmpty() {
+      const cards = grid.querySelectorAll('.card');
+      const hasReal = Array.from(cards).some(c => c.dataset.id !== 'empty');
+      emptyState.hidden = hasReal;
+    }
+
+    editBtn.addEventListener('click', () => {
+      page.classList.toggle('editing');
+      editBtn.textContent = isEditing() ? 'Done' : 'Edit';
+      if (!isEditing()) {
+        grid.querySelectorAll('input[data-pick]').forEach(i => i.checked = false);
+        updateCount();
+      }
+    });
+
+    grid.addEventListener('change', (e) => {
+      if (!isEditing()) return;
+      if (e.target.matches('input[data-pick]')) updateCount();
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', () => {
+      if (!isEditing()) return;
+      const picked = grid.querySelectorAll('input[data-pick]:checked');
+      picked.forEach(i => {
+        const card = i.closest('.card');
+        if (card && card.dataset.id !== 'empty') card.remove();
+      });
+      updateCount();
+      checkEmpty();
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      page.classList.remove('editing');
+      editBtn.textContent = 'Edit';
+      grid.querySelectorAll('input[data-pick]').forEach(i => i.checked = false);
+      updateCount();
+    });
+
+    newListBtn.addEventListener('click', () => {
+      const name = prompt('Name your list:', 'New list');
+      if (!name) return;
+      const tpl = document.createElement('article');
+      tpl.className = 'card';
+      tpl.dataset.id = 'user-' + Date.now();
+      const uniqueId = 'pick-' + Date.now();
+      tpl.innerHTML = `
+        <div class="pill">0 saved</div>
+        <label class="check" for="${uniqueId}">
+          <input id="${uniqueId}" type="checkbox" data-pick />
+        </label>
+        <a class="thumb" href="#" onclick="return false;">
+          <div style="width:100%;height:100%;display:grid;place-items:center;background:#f7f7f7">+</div>
+        </a>
+        <div class="meta">
+          <p class="title"></p>
+          <p class="sub">Empty list</p>
+        </div>`;
+      tpl.querySelector('.title').textContent = name;
+      grid.prepend(tpl);
+      checkEmpty();
+    });
+
+    updateCount();
+    checkEmpty();
+  </script>
+</body>
+</html>
