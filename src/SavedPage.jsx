@@ -102,7 +102,7 @@ export default function SavedPage({ setCurrentPage }) {
           <nav>
             <ul>
               <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-              <li><a href="public/attraction-search.html" target="_blank" rel="noopener">Attractions</a></li>
+              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
               <li><a aria-current="page" href="#">Saved</a></li>
             </ul>
           </nav>

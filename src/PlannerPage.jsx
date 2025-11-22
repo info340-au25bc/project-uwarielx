@@ -208,13 +208,13 @@ const PlannerPage = ({ setCurrentPage }) => {
       <header>
         <div className="header-content">
           <div className="header-left">
-            <img src="img/webpage-brand-logo.png" alt="Tripweaver Icon" className="icon" />
+            <img src="/img/webpage-brand-logo.png" alt="Tripweaver Icon" className="icon" />
             <h1>TripWeaver</h1>
           </div>
           <nav>
             <ul>
               <li><a href="#" className="active">Planner</a></li>
-              <li><a href="/public/attraction-search.html" target="_blank" rel="noopener">Attractions</a></li>
+              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
             </ul>
           </nav>
