@@ -96,18 +96,18 @@ export default function SavedPage({ setCurrentPage }) {
       <header>
         <div className="header-content">
           <div className="header-left">
-            <img src="project-draft/img/webpage-brand-logo.png" alt="Tripweaver Icon" className="icon" />
+            <img src="img/webpage-brand-logo.png" alt="Tripweaver Icon" className="icon" />
             <h1>TripWeaver</h1>
           </div>
           <nav>
             <ul>
               <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-              <li><a href="#">Attractions</a></li>
+              <li><a href="public/attraction-search.html" target="_blank" rel="noopener">Attractions</a></li>
               <li><a aria-current="page" href="#">Saved</a></li>
             </ul>
           </nav>
           <button className="profile-button" type="button" aria-label="Profile">
-            <img src="/img/profile.png" alt="profile button" />
+            <img src="img/profile.png" alt="profile button" />
           </button>
         </div>
       </header>

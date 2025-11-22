@@ -1,0 +1,163 @@
+<!Doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="Static mockup of attraction details." />
+  <meta name="author" content="Ariel Xia" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TripWeaver — Attraction Detail</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="/project-draft/css/base.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Header -->
+  <header role="banner">
+    <img class="icon" src="img/webpage-brand-logo.png" alt="TripWeaver logo" />
+    <h1>TripWeaver</h1>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Planner</a></li>
+        <li><a href="attraction-search.html">Attractions</a></li>
+        <li><a href="saved.html">Saved</a></li>
+      </ul>
+    </nav>
+    <button class="profile-button" type="button" aria-label="Profile">
+      <img src="img/profile.png" alt="profile button">
+    </button>
+  </header>
+
+  <main class="wrap-narrow"> 
+
+    <!-- Title -->
+    <section class="detail">
+      <h1 class="detail-title">Hollywood Walk of Fame</h1>
+      <p class="detail-sub">Landmark · Los Angeles, CA · ★★★★☆</p>
+
+      <!-- photo -->
+      <figure class="detail-photo">
+        <img src="img/hollywood.png" alt="Street scene with stars on the pavement" />
+      </figure>
+
+      <!-- Description-->
+      <div class="detail-body">
+        <p class="detail-desc">
+          The Hollywood Walk of Fame features more than 2,700 brass stars embedded
+          along Hollywood Boulevard and Vine Street, honoring notable figures in entertainment.
+        </p>
+        <p class="detail-links">
+              <a target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Hollywood%20Walk%20of%20Fame%2034.1019,-118.3269">
+                 Open in Google Maps</a>
+        </p>
+        <button id="detail-wishBtn" class="detail-chip-heart" type="button" aria-haspopup="dialog" aria-controls="confirmModal">
+          ♡ wish
+        </button>
+      </div>
+
+      <!-- Features -->
+      <ul class="detail-features">
+        <li class="detail-feature">Family-friendly</li>
+        <li class="detail-feature">Open 24h</li>
+        <li class="detail-feature">Nearby transit</li>
+      </ul>
+    </section>
+  </main>
+
+  <!--  confirm modal -->
+  <div id="detail-confirmModal" class="detail-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
+    <div class="detail-modal">
+      <h2 id="detail-confirm-title">Save to wishlist?</h2>
+      <div class="detail-modal-actions">
+        <button id="detail-cancelConfirm" class="btn-outline" type="button">Cancel</button>
+        <button id="detail-goSave" class="btn-solid" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- folder selection modal -->
+  <div id="detail-folderModal" class="detail-overlay" role="dialog" aria-modal="true" aria-labelledby="wl-title" hidden>
+    <div class="detail-modal">
+      <h2 id="detail-wl-title">Save to wishlist</h2>
+      <form class="detail-modal-form">
+        <form>
+          <div class="detail-radio">
+            <input
+              type="radio"
+              id="detail-folder-la"
+              name="folder"
+              checked
+            />
+            <label for="folder-la">LA</label>
+          </div>
+
+          <div class="detail-radio">
+            <input
+              type="radio"
+              id="detail-folder-new"
+              name="folder"
+            />
+            <label for="folder-new">New folder</label>
+          </div>
+        </form>
+        <input class="detail-input full" type="text" placeholder="Type a folder name…" />
+        <div class="detail-modal-actions">
+          <button id="detail-cancelFolder" class="detail-btn-outline" type="button">Cancel</button>
+          <button id="detail-saveFolder" class="detail-btn-solid" type="button">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p >
+  </footer>
+
+  <!-- small JS -->
+  <script>
+    const wishBtn = document.getElementById('detail-wishBtn');
+    const confirmModal = document.getElementById('detail-confirmModal');
+    const folderModal  = document.getElementById('detail-folderModal');
+    const cancelConfirm = document.getElementById('detail-cancelConfirm');
+    const goSave        = document.getElementById('detail-goSave');
+    const cancelFolder  = document.getElementById('detail-cancelFolder');
+    const saveFolder    = document.getElementById('detail-saveFolder');
+
+    // open first modal
+    wishBtn.addEventListener('click', () => { 
+        confirmModal.hidden = false; 
+    });
+
+    // confirm → open folder modal
+    goSave.addEventListener('click', () => { 
+        confirmModal.hidden = true; 
+        folderModal.hidden = false; 
+    });
+
+    // cancel
+    function closeAll(){ 
+        confirmModal.hidden = true; 
+        folderModal.hidden = true; 
+    }
+
+    cancelConfirm.addEventListener('click', closeAll);
+    cancelFolder.addEventListener('click', closeAll);
+    saveFolder.addEventListener('click', closeAll);
+
+    [confirmModal, folderModal].forEach(m => {
+      m.addEventListener('click', (e) => { 
+        if (e.target === m) {
+            closeAll(); 
+        }
+    });
+    });
+    document.addEventListener('keydown', (e) => { 
+        if (e.key === 'Escape') {
+            closeAll();
+        } 
+    });
+  </script>
+</body>
+</html>
