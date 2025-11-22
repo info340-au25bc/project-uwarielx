@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { auth } from './firebase';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import AuthModal from './AuthModal';
 import './index.css';
 
 const PlannerPage = ({ setCurrentPage }) => {
+  // Authentication state
+  const [user, setUser] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
   // Sample attractions data
   const [savedAttractions] = useState([
     {
@@ -36,11 +43,11 @@ const PlannerPage = ({ setCurrentPage }) => {
     }
   ]);
 
-  const [schedule, setSchedule] = useState({
-    day1: { morning: null, afternoon: null, evening: null },
-    day2: { morning: null, afternoon: null, evening: null },
-    day3: { morning: null, afternoon: null, evening: null }
-  });
+  const [days, setDays] = useState([
+    { id: 1, morning: [null], afternoon: [null], evening: [null] },
+    { id: 2, morning: [null], afternoon: [null], evening: [null] },
+    { id: 3, morning: [null], afternoon: [null], evening: [null] }
+  ]);
 
   const [draggedItem, setDraggedItem] = useState(null);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -68,29 +75,55 @@ const PlannerPage = ({ setCurrentPage }) => {
   };
 
   // Handle drop
-  const handleDrop = (e, day, timeSlot) => {
+  const handleDrop = (e, dayId, timeSlot, slotIndex) => {
     e.preventDefault();
     if (draggedItem) {
-      setSchedule(prev => ({
-        ...prev,
-        [day]: {
-          ...prev[day],
-          [timeSlot]: draggedItem
-        }
-      }));
+      setDays(prev => prev.map(day => 
+        day.id === dayId 
+          ? { 
+              ...day, 
+              [timeSlot]: day[timeSlot].map((item, idx) => 
+                idx === slotIndex ? draggedItem : item
+              )
+            }
+          : day
+      ));
     }
     setDraggedItem(null);
   };
 
   // Remove item from schedule
-  const removeFromSchedule = (day, timeSlot) => {
-    setSchedule(prev => ({
-      ...prev,
-      [day]: {
-        ...prev[day],
-        [timeSlot]: null
-      }
-    }));
+  const removeFromSchedule = (dayId, timeSlot, slotIndex) => {
+    setDays(prev => prev.map(day =>
+      day.id === dayId
+        ? { 
+            ...day, 
+            [timeSlot]: day[timeSlot].filter((_, idx) => idx !== slotIndex)
+          }
+        : day
+    ));
+  };
+
+  // Add a new slot for a time period
+  const addSlot = (dayId, timeSlot) => {
+    setDays(prev => prev.map(day =>
+      day.id === dayId
+        ? { ...day, [timeSlot]: [...day[timeSlot], null] }
+        : day
+    ));
+  };
+
+  // Add a new day
+  const addDay = () => {
+    const newDayId = days.length > 0 ? Math.max(...days.map(d => d.id)) + 1 : 1;
+    setDays([...days, { id: newDayId, morning: [null], afternoon: [null], evening: [null] }]);
+  };
+
+  // Remove a day
+  const removeDay = (dayId) => {
+    if (days.length > 1) {
+      setDays(prev => prev.filter(day => day.id !== dayId));
+    }
   };
 
   // Share modal functions
@@ -132,11 +165,34 @@ const PlannerPage = ({ setCurrentPage }) => {
     ));
   };
 
+  // Authentication functions
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('User signed out');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log('Auth state changed:', currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // Handle keyboard shortcuts for share modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isShareOpen) {
         closeShareModal();
+      }
+      if (e.key === 'Escape' && isAuthModalOpen) {
+        setIsAuthModalOpen(false);
       }
       if (e.key === 'Enter' && isShareOpen && document.activeElement.classList.contains('share-input')) {
         addInvite();
@@ -145,7 +201,7 @@ const PlannerPage = ({ setCurrentPage }) => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isShareOpen, inviteEmail, inviteRole]);
+  }, [isShareOpen, isAuthModalOpen, inviteEmail, inviteRole]);
 
   return (
     <div className="app-container">
@@ -162,7 +218,14 @@ const PlannerPage = ({ setCurrentPage }) => {
               <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
             </ul>
           </nav>
-          <button className="signin-button">Sign In</button>
+          {user ? (
+            <div className="user-menu">
+              <span className="user-name">Hello, {user.displayName || user.email}</span>
+              <button className="signin-button" onClick={handleSignOut}>Sign Out</button>
+            </div>
+          ) : (
+            <button className="signin-button" onClick={() => setIsAuthModalOpen(true)}>Sign In</button>
+          )}
         </div>
       </header>
 
@@ -171,6 +234,7 @@ const PlannerPage = ({ setCurrentPage }) => {
           <div className="planner-header">
             <h2 className="planner-title">Travel to Paris, France</h2>
             <div className="planner-buttons">
+              <button className="add-day-btn" onClick={addDay}>+ Add Day</button>
               <button className="share-btn" onClick={openShareModal}>Share</button>
               <button 
                 className="heart-btn"
@@ -187,39 +251,65 @@ const PlannerPage = ({ setCurrentPage }) => {
                 <thead>
                   <tr>
                     <th className="time-column">Time</th>
-                    <th>Day 1</th>
-                    <th>Day 2</th>
-                    <th>Day 3</th>
+                    {days.map((day, index) => (
+                      <th key={day.id}>
+                        <div className="day-header">
+                          <span>Day {index + 1}</span>
+                          {index > 0 && (
+                            <button 
+                              className="remove-day-btn" 
+                              onClick={() => removeDay(day.id)}
+                              title="Remove this day"
+                            >
+                              −
+                            </button>
+                          )}
+                        </div>
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {['morning', 'afternoon', 'evening'].map(timeSlot => (
                     <tr key={timeSlot}>
                       <td className="time-label">{timeSlot.charAt(0).toUpperCase() + timeSlot.slice(1)}</td>
-                      {['day1', 'day2', 'day3'].map(day => (
-                        <td
-                          key={`${day}-${timeSlot}`}
-                          className="drop-zone"
-                          onDragOver={handleDragOver}
-                          onDrop={(e) => handleDrop(e, day, timeSlot)}
-                        >
-                          {schedule[day][timeSlot] ? (
-                            <div className="scheduled-item">
-                              <div className="scheduled-item-content">
-                                <strong>{schedule[day][timeSlot].name}</strong>
-                                <span className="duration">{schedule[day][timeSlot].duration}</span>
-                              </div>
-                              <button
-                                className="remove-btn"
-                                onClick={() => removeFromSchedule(day, timeSlot)}
-                                title="Remove"
+                      {days.map(day => (
+                        <td key={`${day.id}-${timeSlot}`}>
+                          <div className="time-slot-container">
+                            {day[timeSlot].map((attraction, slotIndex) => (
+                              <div
+                                key={`${day.id}-${timeSlot}-${slotIndex}`}
+                                className="drop-zone"
+                                onDragOver={handleDragOver}
+                                onDrop={(e) => handleDrop(e, day.id, timeSlot, slotIndex)}
                               >
-                                ×
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="empty-slot">Drop attraction here</div>
-                          )}
+                                {attraction ? (
+                                  <div className="scheduled-item">
+                                    <div className="scheduled-item-content">
+                                      <strong>{attraction.name}</strong>
+                                      <span className="duration">{attraction.duration}</span>
+                                    </div>
+                                    <button
+                                      className="remove-btn"
+                                      onClick={() => removeFromSchedule(day.id, timeSlot, slotIndex)}
+                                      title="Remove"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="empty-slot">Drop attraction here</div>
+                                )}
+                              </div>
+                            ))}
+                            <button 
+                              className="add-slot-btn" 
+                              onClick={() => addSlot(day.id, timeSlot)}
+                              title="Add another attraction slot"
+                            >
+                              +
+                            </button>
+                          </div>
                         </td>
                       ))}
                     </tr>
@@ -342,6 +432,13 @@ const PlannerPage = ({ setCurrentPage }) => {
           </div>
         </div>
       )}
+
+      {/* Authentication Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={() => console.log('Authentication successful')}
+      />
 
       <footer className="site-footer">
         <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p>
