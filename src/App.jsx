@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PlannerPage from './PlannerPage';
 import SavedPage from './SavedPage';
-import AttractionSearch from './AttractionSearch';
+import AttractionSearch from './AttractionSearchWithAPI';
 import AttractionDetail from './AttractionDetail';
 import './index.css';
 
