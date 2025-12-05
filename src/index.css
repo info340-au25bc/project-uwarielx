@@ -1200,3 +1200,373 @@ button.primary {
 .auth-toggle-btn:hover {
   color: #0d5456;
 }
+
+/* ============================================
+   ATTRACTION SEARCH PAGE
+   ============================================ */
+.wrap-narrow {
+  max-width: 1000px;
+  margin: 80px auto 20px;
+  padding: 0 20px;
+}
+
+.search-filters {
+  margin-bottom: 30px;
+}
+
+.search-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 16px;
+  border: 2px solid #D2E8E3;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #0F6466;
+  box-shadow: 0 0 0 3px rgba(15, 100, 102, 0.1);
+}
+
+.search-select {
+  padding: 12px 16px;
+  border: 2px solid #D2E8E3;
+  border-radius: 8px;
+  background: white;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  outline: none;
+  min-width: 150px;
+}
+
+.search-select:focus {
+  border-color: #0F6466;
+  box-shadow: 0 0 0 3px rgba(15, 100, 102, 0.1);
+}
+
+.search-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: white;
+  border: 2px solid #D2E8E3;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.search-card:hover {
+  border-color: #0F6466;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.search-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.search-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2C3532;
+  margin: 0;
+}
+
+.search-sub {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.search-desc {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ============================================
+   ATTRACTION DETAIL PAGE
+   ============================================ */
+.detail {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #2C3532;
+  margin: 0 0 10px 0;
+}
+
+.detail-sub {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 20px 0;
+}
+
+.detail-photo {
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.detail-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-body {
+  margin: 20px 0;
+}
+
+.detail-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 0 15px 0;
+}
+
+.detail-links {
+  margin: 15px 0;
+}
+
+.detail-links a {
+  color: #0F6466;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.detail-links a:hover {
+  color: #0d5456;
+  text-decoration: underline;
+}
+
+.detail-chip-heart {
+  display: inline-block;
+  padding: 10px 20px;
+  background: white;
+  border: 2px solid #0F6466;
+  color: #0F6466;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.detail-chip-heart:hover {
+  background: #0F6466;
+  color: white;
+}
+
+.detail-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-feature {
+  padding: 8px 16px;
+  background: #D2E8E3;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #2C3532;
+  font-weight: 500;
+}
+
+/* Detail Modals */
+.detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2000;
+}
+
+.detail-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.detail-modal h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2C3532;
+  margin: 0 0 20px 0;
+}
+
+.detail-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 2px solid #D2E8E3;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.detail-radio:hover {
+  border-color: #0F6466;
+}
+
+.detail-radio input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.detail-radio label {
+  flex: 1;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.detail-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #D2E8E3;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+
+.detail-input:focus {
+  border-color: #0F6466;
+  box-shadow: 0 0 0 3px rgba(15, 100, 102, 0.1);
+}
+
+.detail-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.detail-btn-outline {
+  padding: 12px 24px;
+  background: white;
+  border: 2px solid #D2E8E3;
+  color: #2C3532;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detail-btn-outline:hover {
+  border-color: #0F6466;
+  background: #f0f0f0;
+}
+
+.detail-btn-solid {
+  padding: 12px 24px;
+  background: #0F6466;
+  border: 2px solid #0F6466;
+  color: white;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.detail-btn-solid:hover {
+  background: #0d5456;
+  border-color: #0d5456;
+}
+
+/* ============================================
+   RESPONSIVE - ATTRACTION PAGES
+   ============================================ */
+@media (max-width: 768px) {
+  .wrap-narrow {
+    margin-top: 100px;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .search-select {
+    width: 100%;
+  }
+
+  .search-card {
+    flex-direction: column;
+  }
+
+  .search-thumb {
+    width: 100%;
+    height: 200px;
+  }
+
+  .detail-modal {
+    padding: 20px;
+  }
+}
