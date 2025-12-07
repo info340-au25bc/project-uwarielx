@@ -1,139 +1,710 @@
-# TripWeaver - Attraction Search & Detail Integration
+# 🌍 TripWeaver - Travel Itinerary Planner
 
-This update adds a complete attraction search and detail page system to your TripWeaver project with a client-side database.
+A modern, cloud-connected travel planning application that helps you discover attractions, organize wishlists, and create detailed day-by-day itineraries with an intuitive drag-and-drop interface.
 
-## Files Included
+**Live Demo:** [TripWeaver on Firebase](https://info340project-432e9.web.app)
 
-1. **attractionsData.js** - Database of attractions with 6 sample attractions
-2. **AttractionSearch.jsx** - Search page with filters (replaces your old version)
-3. **AttractionDetail.jsx** - Detail page with wishlist functionality (NEW)
-4. **App.jsx** - Updated routing to handle attraction pages
-5. **index.css** - Updated styles with attraction page CSS added
-6. **main.jsx** - Entry point (no changes needed, but included for completeness)
+---
 
-## Installation Steps
+## 👥 Team
 
-1. **Replace these files in your `src` folder:**
-   - AttractionSearch.jsx (replaces the old one)
-   - App.jsx (replaces the old one)
-   - index.css (replaces the old one)
+- **Ariel Xia** - arielx@uw.edu
+- **Cynthia Jin** - cynthiaj@uw.edu  
+- **Aaron Huang** - bh62@uw.edu
 
-2. **Add these NEW files to your `src` folder:**
-   - attractionsData.js (NEW - the database)
-   - AttractionDetail.jsx (NEW - detail page component)
+**Course:** INFO 340 - Client-Side Web Development  
+**University of Washington** | Autumn 2024
 
-3. **Keep your existing files:**
-   - PlannerPage.jsx
-   - SavedPage.jsx
-   - AuthModal.jsx
-   - firebase.js
-   - main.jsx
+---
 
-## Features
+## ✨ Features
 
-### Attraction Search Page
-- Search bar with live filtering
-- Category filter (Museum, Landmark, Science, Theme Park, etc.)
-- Price filter (Free, Paid)
-- Clickable cards that navigate to detail page
-- Responsive design
+### 🗺️ Attraction Discovery
+- Browse curated attractions from popular destinations
+- Search and filter by category (Museums, Landmarks, Parks, etc.)
+- Filter by price range (Free, $, $$, $$$)
+- View detailed information including hours, ratings, and descriptions
+- Integration with OpenTripMap API for worldwide attraction data
+- Google Maps links for navigation
 
-### Attraction Detail Page
-- Full attraction information with image
-- Star rating display
-- Google Maps integration (opens in new tab)
-- Wishlist functionality with two-step modal:
-  1. Confirm save
-  2. Select folder (LA or create new)
-- Feature tags display
-- Hours and price information
-- Back to search button
+### 💾 Smart Wishlists
+- Save attractions to custom-named folders
+- Organize trips by destination (LA, Paris, NYC, etc.)
+- Cloud storage with Firebase Firestore
+- Real-time synchronization across all devices
+- View and manage all saved attractions by folder
+- Delete folders and attractions with confirmation
 
-### Database Structure
-Each attraction includes:
-- id (unique identifier)
-- name
-- category
-- location
-- coordinates (lat/lng for Google Maps)
-- rating (1-5 stars)
-- price (Free/Paid)
-- description
-- image path
-- features array
-- hours
+### 📅 Interactive Planner
+- Drag-and-drop scheduling interface
+- Organize attractions by day and time (Morning, Afternoon, Evening)
+- Add unlimited days to your itinerary
+- Multiple time slots per period
+- Dynamic trip title based on selected destination folder
+- Collaborative sharing with team members
+- Export-ready format for your trips
 
-## How to Add More Attractions
+### 🔐 User Authentication
+- Secure Firebase Authentication
+- Email/password sign-up and sign-in
+- Password reset functionality
+- User-specific data isolation
+- Persistent sessions
 
-Edit `attractionsData.js` and add new objects to the array:
+### ☁️ Cloud Integration
+- **Firebase Firestore** - NoSQL database for wishlists
+- **Firebase Hosting** - Fast, secure hosting
+- **Firebase Authentication** - Secure user management
+- Multi-device sync - Access your plans anywhere
+- Offline-capable with fallback data
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** - Component-based UI framework
+- **Vite** - Fast build tool and dev server
+- **CSS3** - Custom styling with responsive design
+- **HTML5** - Semantic markup
+
+### Backend & Services
+- **Firebase Authentication** - User management
+- **Cloud Firestore** - NoSQL database
+- **Firebase Hosting** - Static site hosting
+- **OpenTripMap API** - Attraction data (optional)
+
+### Development Tools
+- **npm** - Package management
+- **ESLint** - Code quality
+- **Git & GitHub** - Version control
+- **VS Code** - Development environment
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** (v18 or higher) - [Download](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- **Firebase account** - [Sign up](https://firebase.google.com/)
+- **Git** - [Download](https://git-scm.com/)
+
+### Installation
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/tripweaver.git
+cd tripweaver
+```
+
+#### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+#### 3. Firebase Setup
+
+**Create Firebase Project:**
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click **"Add project"**
+3. Name it (e.g., "TripWeaver")
+4. Disable Google Analytics (optional)
+5. Click **"Create project"**
+
+**Enable Authentication:**
+
+1. In Firebase Console → **Authentication**
+2. Click **"Get started"**
+3. Enable **"Email/Password"** provider
+4. Click **"Save"**
+
+**Enable Firestore:**
+
+1. In Firebase Console → **Firestore Database**
+2. Click **"Create database"**
+3. Choose **"Start in test mode"**
+4. Select your region (e.g., `us-central`)
+5. Click **"Enable"**
+
+**Add Security Rules:**
+
+1. Go to **Firestore Database** → **Rules** tab
+2. Replace with:
 
 ```javascript
-{
-  id: 'unique-attraction-id',
-  name: 'Attraction Name',
-  category: 'Museum', // or 'Landmark', 'Park', etc.
-  location: 'City, State',
-  coordinates: { lat: 34.0000, lng: -118.0000 },
-  rating: 4, // 1-5
-  price: 'Free', // or 'Paid'
-  description: 'Brief description of the attraction.',
-  image: '/img/image-name.png',
-  features: ['Feature 1', 'Feature 2', 'Feature 3'],
-  hours: 'Opening hours description'
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /savedAttractions/{attractionId} {
+      allow read, write: if request.auth != null && 
+                           request.resource.data.userId == request.auth.uid;
+    }
+    match /wishlistFolders/{folderId} {
+      allow read, write: if request.auth != null && 
+                           request.resource.data.userId == request.auth.uid;
+    }
+  }
 }
 ```
 
-## Navigation Flow
+3. Click **"Publish"**
 
-1. User clicks "Attractions" in nav → AttractionSearch page
-2. User clicks an attraction card → AttractionDetail page
-3. User can click "Back to Search" → Returns to AttractionSearch
-4. User can click nav links → Navigate to other pages (Planner, Saved)
+**Get Firebase Config:**
 
-## Styling Notes
+1. In Firebase Console → **Project Settings** (⚙️ icon)
+2. Scroll to **"Your apps"** → Click **Web** icon `</>`
+3. Register app (name: "TripWeaver")
+4. Copy the `firebaseConfig` object
 
-- All CSS matches your existing TripWeaver design
-- Uses your color palette:
-  - Primary: #0F6466 (teal)
-  - Accent: #DBB08C (beige)
-  - Background: #D2E8E3 (mint)
-- Responsive breakpoints at 768px and 480px
-- Smooth transitions and hover effects
+#### 4. Configure Firebase in Project
 
-## Testing Checklist
+**Update `src/firebase.js` with your config:**
 
-- [ ] Search bar filters attractions by name/description
-- [ ] Category dropdown filters correctly
-- [ ] Price dropdown filters correctly
-- [ ] Clicking attraction card shows detail page
-- [ ] Google Maps link opens correctly
-- [ ] Wishlist button shows confirm modal
-- [ ] Confirm modal shows folder selection
-- [ ] Back button returns to search
-- [ ] All navigation links work
-- [ ] Responsive design works on mobile
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
 
-## Integration with Planner Page
+#### 5. Run Development Server
 
-To enable drag-and-drop from attractions to planner (future enhancement):
-1. Use the attractions data in PlannerPage's savedAttractions state
-2. Import attractionsData and filter/display as needed
-3. The data structure is already compatible with your planner's drag-and-drop
+```bash
+npm run dev
+```
 
-## Notes
+Visit **http://localhost:5173** in your browser!
 
-- No external API calls needed - all data is client-side
-- Uses localStorage for wishlist persistence (currently just alerts, can be enhanced)
-- Keyboard accessible (Escape closes modals)
-- Screen reader friendly with proper ARIA labels
-- Google Maps links use the format specified in your proposal
+---
 
-## Questions?
+## 📖 Usage Guide
 
-If you need help with:
-- Adding more attractions
-- Connecting to Firebase for persistence
-- Adding drag-and-drop to planner
-- Any other features
+### First Time Setup
 
-Just ask!
+1. **Sign Up**
+   - Click **"Sign In"** button
+   - Click **"Create Account"**
+   - Enter email and password
+   - Click **"Sign Up"**
+
+2. **Browse Attractions**
+   - Navigate to **Attractions** page
+   - Browse available attractions
+   - Use filters to narrow results
+
+3. **Save Your First Attraction**
+   - Click any attraction card
+   - Click **"♡ wish"** button
+   - Click **"Save"** in confirmation
+   - Select existing folder or create new
+   - Click **"Save"**
+
+4. **View Your Wishlists**
+   - Navigate to **Saved** page
+   - See your folders with attraction counts
+   - Click folder to view all attractions
+   - Click attraction to see details
+
+5. **Plan Your Trip**
+   - Navigate to **Planner** page
+   - Select folder from dropdown
+   - Drag attractions to schedule
+   - Add more days as needed
+   - Share with collaborators
+
+---
+
+## 🎨 Application Structure
+
+### Page Navigation
+
+```
+├── Planner (Home)
+│   ├── Day-by-day schedule
+│   ├── Drag-and-drop interface
+│   └── Saved attractions sidebar
+│
+├── Attractions
+│   ├── Browse all attractions
+│   ├── Search and filter
+│   └── Click to view details
+│
+└── Saved
+    ├── View all folders
+    ├── Click folder → View attractions
+    └── Edit/delete folders
+```
+
+### Data Flow
+
+```
+User saves attraction
+    ↓
+AttractionDetail → Firebase Firestore
+    ↓
+refreshWishlists() called
+    ↓
+App.jsx loads updated data
+    ↓
+All pages update automatically
+    ↓
+Planner shows in dropdown
+Saved shows in folder list
+```
+
+---
+
+## 📁 Project Structure
+
+```
+tripweaver/
+├── public/
+│   └── img/                      # Images and icons
+│       ├── webpage-brand-logo.png
+│       ├── profile.png
+│       └── [attraction-images]/
+│
+├── src/
+│   ├── App.jsx                   # Main app component with routing
+│   ├── PlannerPage.jsx          # Drag-and-drop trip planner
+│   ├── SavedPage.jsx            # Wishlist management
+│   ├── AttractionSearch.jsx     # Browse and search attractions
+│   ├── AttractionDetail.jsx     # Detailed attraction view
+│   ├── AuthModal.jsx            # Sign in/up modal
+│   │
+│   ├── firebase.js              # Firebase configuration
+│   ├── AttractionFirebaseService.js  # Firestore operations
+│   ├── attractionsData.js       # Static fallback data
+│   ├── attractionService.js     # OpenTripMap API integration
+│   │
+│   ├── index.css                # Global styles
+│   └── main.jsx                 # App entry point
+│
+├── firebase.json                # Firebase hosting config
+├── package.json                 # Dependencies
+├── vite.config.js              # Vite configuration
+└── README.md                    # This file
+```
+
+---
+
+## 🎯 Key Components
+
+### App.jsx
+- **State Management** - Manages wishlists and selected folder
+- **Authentication** - Tracks user login state
+- **Routing** - Switches between pages
+- **Data Refresh** - Coordinates updates across components
+
+### PlannerPage.jsx
+- **Folder Selection** - Dropdown to choose destination
+- **Dynamic Title** - Changes based on selected folder
+- **Drag-and-Drop** - HTML5 drag API for scheduling
+- **Day Management** - Add/remove days
+- **Collaboration** - Share modal for team planning
+
+### SavedPage.jsx
+- **Folder View** - Grid of wishlist folders
+- **Attraction View** - List of attractions in folder
+- **Navigation** - Click folder → attractions → detail
+- **Edit Mode** - Select and delete folders
+
+### AttractionDetail.jsx
+- **Save Functionality** - Add to wishlist with folder selection
+- **Create Folders** - New folder creation inline
+- **Duplicate Detection** - Prevents saving same attraction twice
+- **Refresh Trigger** - Updates all pages after save
+
+---
+
+## 🔥 Firebase Integration
+
+### Collections Structure
+
+**savedAttractions** collection:
+```javascript
+{
+  documentId: "userId_folderName_attractionId",
+  userId: "firebase-user-id",
+  folderName: "LA",
+  attractionId: "griffith-observatory",
+  name: "Griffith Observatory",
+  category: "Observatory",
+  location: "Los Angeles, CA",
+  coordinates: { lat: 34.1184, lng: -118.3004 },
+  rating: 5,
+  price: "Free",
+  description: "...",
+  image: "/img/griffith.png",
+  features: [...],
+  hours: "Tuesday-Friday 12:00-22:00",
+  savedAt: "2024-12-07T01:30:00Z"
+}
+```
+
+**wishlistFolders** collection:
+```javascript
+{
+  documentId: "userId_folderName",
+  userId: "firebase-user-id",
+  folderName: "LA",
+  createdAt: "2024-12-07T01:30:00Z"
+}
+```
+
+### Security Rules
+
+- Users can only read/write their own data
+- Authentication required for all operations
+- User ID validation on every request
+
+---
+
+## 🌐 Deployment
+
+### Build for Production
+
+```bash
+# Build optimized production files
+npm run build
+```
+
+This creates a `dist/` folder with:
+- Minified JavaScript
+- Optimized CSS
+- Compressed images
+- Production-ready HTML
+
+### Deploy to Firebase
+
+#### First-Time Setup
+
+```bash
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Initialize Firebase in project
+firebase init hosting
+
+# Select options:
+# - Use existing project: info340project-432e9
+# - Public directory: dist
+# - Single-page app: Yes
+# - Overwrite index.html: No
+```
+
+#### Deploy Updates
+
+```bash
+# Build latest version
+npm run build
+
+# Deploy to Firebase Hosting
+firebase deploy --only hosting
+
+# Visit your live site!
+# https://info340project-432e9.web.app
+```
+
+### Deployment Workflow
+
+```bash
+# 1. Make code changes
+# 2. Test locally
+npm run dev
+
+# 3. Build for production
+npm run build
+
+# 4. Deploy to Firebase
+firebase deploy --only hosting
+
+# 5. Verify deployment
+# Visit https://info340project-432e9.web.app
+```
+
+---
+
+## 🧪 Testing
+
+### Local Testing
+
+```bash
+# Start dev server
+npm run dev
+
+# Test in browser
+open http://localhost:5173
+```
+
+### Test Checklist
+
+**Authentication:**
+- [ ] Sign up new account
+- [ ] Sign in existing account
+- [ ] Sign out
+- [ ] Password validation
+
+**Attractions:**
+- [ ] Browse attractions
+- [ ] Filter by category
+- [ ] Filter by price
+- [ ] Click attraction → Detail page
+- [ ] Back to search
+
+**Save/Wishlist:**
+- [ ] Save to existing folder
+- [ ] Create new folder
+- [ ] Save multiple attractions
+- [ ] View in Saved page
+- [ ] Click folder → See attractions
+- [ ] Delete folder
+
+**Planner:**
+- [ ] Select folder from dropdown
+- [ ] Title updates correctly
+- [ ] Attractions appear in sidebar
+- [ ] Drag to schedule
+- [ ] Remove from schedule
+- [ ] Add/remove days
+- [ ] Share modal
+
+**Cross-Device:**
+- [ ] Save on Device A
+- [ ] See on Device B
+- [ ] Delete on Device B
+- [ ] Removed from Device A
+
+---
+
+## 🐛 Troubleshooting
+
+### "No saved attractions yet" after saving
+
+**Problem:** Data not loading from Firestore
+
+**Solutions:**
+1. Check if Firestore is enabled in Firebase Console
+2. Verify security rules are published
+3. Hard refresh browser (`Ctrl+Shift+R`)
+4. Check browser console for errors
+5. Verify `attractionFirebaseService.js` exists in `src/`
+
+### "Permission denied" errors
+
+**Problem:** Firestore security rules blocking access
+
+**Solution:**
+1. Go to Firebase Console → Firestore → Rules
+2. Verify rules allow authenticated users
+3. Click "Publish"
+4. Sign out and sign in again
+
+### Firebase deploy shows old version
+
+**Problem:** Not building before deploying
+
+**Solution:**
+```bash
+npm run build  # Build first!
+firebase deploy --only hosting
+```
+
+### Import errors in VS Code
+
+**Problem:** Case-sensitive file names
+
+**Solution:**
+- Files must be lowercase: `attractionFirebaseService.js`
+- Not: `AttractionFirebaseService.js`
+- Rename and restart dev server
+
+---
+
+## 🎨 Customization
+
+### Add New Destinations
+
+**Update destination mapping in `PlannerPage.jsx`:**
+
+```javascript
+const getDestinationFromFolder = () => {
+  const folderLower = selectedFolder.toLowerCase();
+  
+  if (folderLower.includes('seattle')) {
+    return 'Seattle, WA';
+  }
+  if (folderLower.includes('tokyo')) {
+    return 'Tokyo, Japan';
+  }
+  // Add more destinations...
+  
+  return selectedFolder; // Default
+};
+```
+
+### Add Static Attractions
+
+**Edit `src/attractionsData.js`:**
+
+```javascript
+export const attractions = [
+  {
+    id: 'your-attraction-id',
+    name: 'Space Needle',
+    category: 'Landmark',
+    location: 'Seattle, WA',
+    coordinates: { lat: 47.6205, lng: -122.3493 },
+    rating: 5,
+    price: '$$',
+    description: 'Iconic Seattle landmark...',
+    image: '/img/space-needle.png',
+    features: ['Observation Deck', 'Restaurant', 'Gift Shop'],
+    hours: 'Daily 9:00-22:00'
+  }
+];
+```
+
+### Change Color Scheme
+
+**Update CSS variables in `src/index.css`:**
+
+```css
+:root {
+  --primary-color: #0F6466;    /* Teal */
+  --secondary-color: #D2E8E3;  /* Mint */
+  --accent-color: #DBB08C;     /* Beige */
+}
+```
+
+---
+
+## 📊 Features Roadmap
+
+### Completed ✅
+- [x] User authentication
+- [x] Attraction browsing
+- [x] Save to wishlists
+- [x] Folder organization
+- [x] Drag-and-drop planner
+- [x] Cloud sync
+- [x] Responsive design
+
+### In Progress 🚧
+- [ ] OpenTripMap API integration
+- [ ] Social sharing
+- [ ] Email invitations
+
+### Future Features 💡
+- [ ] Export itinerary as PDF
+- [ ] Weather integration
+- [ ] Budget calculator
+- [ ] Collaborative real-time editing
+- [ ] Mobile app (React Native)
+- [ ] Offline mode
+- [ ] Trip recommendations
+- [ ] Photo uploads
+
+---
+
+## 🤝 Contributing
+
+This is a class project, but we welcome feedback!
+
+**To report bugs or suggest features:**
+
+1. Open an issue on GitHub
+2. Email the team
+3. Fork and submit a pull request
+
+**Development Guidelines:**
+
+- Follow existing code style
+- Comment complex logic
+- Test before committing
+- Update README for new features
+
+---
+
+## 📄 License
+
+© 2024 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.
+
+**Academic Use:** This project was created for INFO 340 at the University of Washington.
+
+**Reuse:** Please contact the team for permission to use or adapt this project.
+
+---
+
+## 📞 Contact & Support
+
+**Team Emails:**
+- Ariel Xia: arielx@uw.edu
+- Cynthia Jin: cynthiaj@uw.edu
+- Aaron Huang: bh62@uw.edu
+
+**GitHub:** [github.com/your-repo/tripweaver](https://github.com)
+
+**Live Site:** [info340project-432e9.web.app](https://info340project-432e9.web.app)
+
+---
+
+## 🙏 Acknowledgments
+
+- **Professor Joel Ross** - INFO 340 Instructor
+- **Teaching Assistants** - For guidance and support
+- **OpenTripMap** - Attraction data API
+- **Firebase** - Cloud infrastructure
+- **React Community** - Documentation and resources
+- **UW iSchool** - Educational support
+
+---
+
+## 📸 Screenshots
+
+### Planner Page
+![Planner with drag-and-drop scheduling](docs/planner-screenshot.png)
+
+### Attractions Browser
+![Browse and filter attractions](docs/attractions-screenshot.png)
+
+### Saved Wishlists
+![Organize attractions in folders](docs/saved-screenshot.png)
+
+### Attraction Details
+![Detailed attraction information](docs/detail-screenshot.png)
+
+---
+
+## 🎓 Educational Outcomes
+
+This project demonstrates:
+
+✅ **React Fundamentals** - Components, props, state, hooks  
+✅ **Firebase Integration** - Auth, Firestore, Hosting  
+✅ **API Integration** - RESTful API consumption  
+✅ **State Management** - Lifting state, prop drilling  
+✅ **User Authentication** - Secure login/signup flows  
+✅ **Database Design** - NoSQL schema design  
+✅ **Responsive Design** - Mobile-first CSS  
+✅ **Version Control** - Git workflow and collaboration  
+✅ **Deployment** - Production build and hosting  
+✅ **User Experience** - Intuitive UI/UX design  
+
+---
+
+**Built with ❤️ by the TripWeaver Team**
+
+*Making travel planning simple, organized, and collaborative.*
