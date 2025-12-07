@@ -1,56 +1,31 @@
 import { useState, useEffect } from "react";
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { deleteFolder } from './AttractionFirebaseService';
 import "./index.css";
 
-export default function SavedPage({ setCurrentPage }) {
+export default function SavedPage({
+  setCurrentPage,
+  setSelectedAttraction,
+  wishlists,
+  refreshWishlists,
+  setSelectedFolder        // 👈 new prop
+}) {
   const [isEditing, setIsEditing] = useState(false);
-  const [lists, setLists] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('folders'); // 'folders' or 'attractions'
+  const [currentFolder, setCurrentFolder] = useState(null);
 
+  // Listen for auth state
   useEffect(() => {
-    const saved = localStorage.getItem("savedLists");
-    if (saved) {
-      setLists(JSON.parse(saved));
-    } else {
-      // Default lists matching original saved.html
-      setLists([
-        {
-          id: "recent",
-          pill: "1 week ago",
-          title: "Recently viewed",
-          sub: "3 items",
-          img: "/img/hollywood.png"
-        },
-        {
-          id: "la2025",
-          pill: "5 saved",
-          title: "LA Weekend 2025",
-          sub: "Saved from Attractions",
-          img: "/img/griffith.png"
-        },
-        {
-          id: "nyc2025",
-          pill: "2 saved",
-          title: "NYC 2025",
-          sub: "Saved from Planner",
-          img: "/img/getty.png"
-        },
-        {
-          id: "empty",
-          pill: null,
-          title: "Create a list",
-          sub: "Save places you love",
-          img: null,
-          isPlaceholder: true
-        }
-      ]);
-    }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    // Only save non-placeholder lists
-    const listsToSave = lists.filter(item => !item.isPlaceholder);
-    localStorage.setItem("savedLists", JSON.stringify(listsToSave));
-  }, [lists]);
 
   function handleEdit() {
     if (isEditing) {
@@ -69,27 +44,69 @@ export default function SavedPage({ setCurrentPage }) {
     setSelected(copy);
   }
 
-  function handleDelete() {
-    const newLists = lists.filter((item) => !selected.includes(item.id));
-    setLists(newLists);
-    setSelected([]);
-    setIsEditing(false);
+  async function handleDelete() {
+    if (!user) return;
+
+    const confirmDelete = window.confirm(
+      `Delete ${selected.length} folder(s)? This will remove all attractions in these folders.`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      // Delete each selected folder from Firebase
+      const deletePromises = selected.map(async (folderName) => {
+        return deleteFolder(user.uid, folderName);
+      });
+
+      await Promise.all(deletePromises);
+
+      // Refresh wishlists in parent
+      refreshWishlists();
+      
+      setSelected([]);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error deleting folders:', error);
+      alert('Failed to delete some folders. Please try again.');
+    }
   }
 
   function handleNewList() {
-    const name = prompt("Name your list:", "New list");
-    if (!name) return;
-    const newItem = {
-      id: "user-" + Date.now(),
-      pill: "0 saved",
-      title: name,
-      sub: "Empty list",
-      img: null
-    };
-    setLists([newItem, ...lists.filter(item => !item.isPlaceholder)]);
+    if (!user) {
+      alert('Please sign in to create wishlists!');
+      return;
+    }
+
+    alert(`To create a folder, save an attraction from the Attractions page and choose "Create new folder"!`);
+    setCurrentPage('attractions');
   }
 
-  const hasRealLists = lists.some(item => !item.isPlaceholder);
+  function handleFolderClick(folder) {
+    setCurrentFolder(folder);
+    setViewMode('attractions');
+    setIsEditing(false);
+    setSelected([]);
+
+    // 👇 let the Planner page know which folder is active
+    if (setSelectedFolder) {
+      setSelectedFolder(folder.name);
+    }
+  }
+
+  function handleAttractionClick(attraction) {
+    setSelectedAttraction(attraction);
+    setCurrentPage('attraction-detail');
+  }
+
+  function handleBackToFolders() {
+    setViewMode('folders');
+    setCurrentFolder(null);
+    setIsEditing(false);
+    setSelected([]);
+  }
+
+  const hasRealLists = wishlists && wishlists.length > 0;
 
   return (
     <div className={isEditing ? "editing" : ""}>
@@ -113,86 +130,217 @@ export default function SavedPage({ setCurrentPage }) {
       </header>
 
       <main className="page">
-        <div className="topbar">
-          <h2>Wishlists</h2>
-          <div>
-            <button onClick={handleEdit}>
-              {isEditing ? "Done" : "Edit"}
-            </button>
-            <button className="primary" onClick={handleNewList}>
-              New list
-            </button>
-          </div>
-        </div>
-
-        {!hasRealLists ? (
-          <p className="empty">No saved lists yet.</p>
-        ) : (
-          <section className="grid" aria-label="Saved lists">
-            {lists.map((item) => (
-              <article key={item.id} className="card" data-id={item.id}>
-                {item.pill && <div className="pill">{item.pill}</div>}
-
-                {isEditing && !item.isPlaceholder && (
-                  <label className="check">
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(item.id)}
-                      onChange={() => toggleSelect(item.id)}
-                    />
-                  </label>
+        {/* Showing Folders */}
+        {viewMode === 'folders' && (
+          <>
+            <div className="topbar">
+              <h2>Wishlists</h2>
+              <div>
+                {user && hasRealLists && (
+                  <button onClick={handleEdit}>
+                    {isEditing ? "Done" : "Edit"}
+                  </button>
                 )}
+                <button className="primary" onClick={handleNewList}>
+                  New list
+                </button>
+              </div>
+            </div>
 
-                <a className="thumb" href={item.isPlaceholder ? "#" : "#"} onClick={(e) => e.preventDefault()}>
-                  {item.img ? (
-                    <img src={item.img} alt={item.title} />
-                  ) : item.isPlaceholder ? (
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 22l7.8-8.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
-                    </svg>
-                  ) : (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        display: "grid",
-                        placeItems: "center",
-                        background: "#f3f5f4",
-                        fontSize: "48px",
-                        color: "#999"
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <div style={{ 
+                  display: 'inline-block',
+                  width: '50px',
+                  height: '50px',
+                  border: '4px solid #D2E8E3',
+                  borderTop: '4px solid #0F6466',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite'
+                }}></div>
+                <p style={{ marginTop: '20px', color: '#666' }}>Loading your wishlists...</p>
+              </div>
+            ) : !user ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
+                  Sign in to save and manage your wishlists!
+                </p>
+                <button 
+                  onClick={() => setCurrentPage('planner')}
+                  style={{
+                    padding: '12px 24px',
+                    background: '#0F6466',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Go to Sign In
+                </button>
+              </div>
+            ) : !hasRealLists ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
+                  No saved lists yet. Browse attractions and start saving!
+                </p>
+                <button 
+                  onClick={() => setCurrentPage('attractions')}
+                  style={{
+                    padding: '12px 24px',
+                    background: '#0F6466',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Browse Attractions
+                </button>
+              </div>
+            ) : (
+              <section className="grid" aria-label="Saved lists">
+                {wishlists.map((folder, index) => (
+                  <article key={index} className="card">
+                    <div className="pill">{folder.count} saved</div>
+
+                    {isEditing && (
+                      <label className="check">
+                        <input
+                          type="checkbox"
+                          checked={selected.includes(folder.name)}
+                          onChange={() => toggleSelect(folder.name)}
+                        />
+                      </label>
+                    )}
+
+                    <a 
+                      className="thumb" 
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (!isEditing) {
+                          handleFolderClick(folder);
+                        }
                       }}
                     >
-                      +
-                    </div>
-                  )}
-                </a>
+                      {folder.attractions[0]?.image ? (
+                        <img 
+                          src={folder.attractions[0].image} 
+                          alt={folder.name}
+                          onError={(e) => {
+                            e.target.src = '/img/hollywood.png';
+                          }}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "grid",
+                            placeItems: "center",
+                            background: "#f3f5f4",
+                            fontSize: "48px",
+                            color: "#999"
+                          }}
+                        >
+                          📍
+                        </div>
+                      )}
+                    </a>
 
-                <div className="meta">
-                  <p className="title">{item.title}</p>
-                  <p className="sub">{item.sub}</p>
-                </div>
-              </article>
-            ))}
-          </section>
+                    <div className="meta">
+                      <p className="title">{folder.name}</p>
+                      <p className="sub">Saved from Attractions</p>
+                    </div>
+                  </article>
+                ))}
+              </section>
+            )}
+
+            <div className="actionbar" role="region" aria-label="Selection actions">
+              <span className="count">{selected.length} selected</span>
+              <button onClick={handleDelete}>Delete</button>
+              <button
+                onClick={() => {
+                  setSelected([]);
+                  setIsEditing(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </>
         )}
 
-        <div className="actionbar" role="region" aria-label="Selection actions">
-          <span className="count">{selected.length} selected</span>
-          <button onClick={handleDelete}>Delete</button>
-          <button
-            onClick={() => {
-              setSelected([]);
-              setIsEditing(false);
-            }}
-          >
-            Cancel
-          </button>
-        </div>
+        {/* Showing Attractions in a Folder */}
+        {viewMode === 'attractions' && currentFolder && (
+          <>
+            <div className="topbar">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <button 
+                  onClick={handleBackToFolders}
+                  style={{
+                    padding: '8px 16px',
+                    background: '#0F6466',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    fontSize: '14px'
+                  }}
+                >
+                  ← Back to Folders
+                </button>
+                <h2>{currentFolder.name} ({currentFolder.count} attractions)</h2>
+              </div>
+            </div>
+
+            <section className="grid" aria-label="Attractions" style={{ marginTop: '20px' }}>
+              {currentFolder.attractions.map((attraction, index) => (
+                <article 
+                  key={index} 
+                  className="card"
+                  onClick={() => handleAttractionClick(attraction)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <a className="thumb" href="#" onClick={(e) => e.preventDefault()}>
+                    <img 
+                      src={attraction.image} 
+                      alt={attraction.name}
+                      onError={(e) => {
+                        e.target.src = '/img/hollywood.png';
+                      }}
+                    />
+                  </a>
+
+                  <div className="meta">
+                    <p className="title">{attraction.name}</p>
+                    <p className="sub">{attraction.category} · {attraction.location}</p>
+                  </div>
+                </article>
+              ))}
+            </section>
+          </>
+        )}
       </main>
 
       <footer className="site-footer">
         <p>&copy; 2025 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.</p>
       </footer>
+
+      {/* Add spinner animation */}
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

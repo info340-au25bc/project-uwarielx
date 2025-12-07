@@ -48,7 +48,7 @@ export const attractionsData = [
     rating: 4,
     price: 'Free',
     description: 'Historic pier with amusement park, aquarium, and restaurants.',
-    image: '/img/hollywood.png', // placeholder
+    image: '/img/hollywood.png', 
     features: ['Family-friendly', 'Beach access', 'Dining'],
     hours: 'Open 24 hours'
   },
@@ -61,7 +61,7 @@ export const attractionsData = [
     rating: 5,
     price: 'Paid',
     description: 'Film studio and theme park with movie-themed rides and attractions.',
-    image: '/img/griffith.png', // placeholder
+    image: '/img/griffith.png', 
     features: ['Theme park', 'Studio tour', 'Dining'],
     hours: 'Daily 9:00-18:00 (varies by season)'
   },
@@ -74,7 +74,7 @@ export const attractionsData = [
     rating: 4,
     price: 'Paid',
     description: 'Largest art museum in the western United States.',
-    image: '/img/getty.png', // placeholder
+    image: '/img/getty.png',
     features: ['Art collection', 'Exhibitions', 'Gift shop'],
     hours: 'Monday, Tuesday, Thursday 11:00-17:00, Friday 11:00-20:00, Saturday-Sunday 10:00-19:00'
   }

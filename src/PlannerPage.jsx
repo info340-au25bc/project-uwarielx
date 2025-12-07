@@ -4,44 +4,10 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import AuthModal from './AuthModal';
 import './index.css';
 
-const PlannerPage = ({ setCurrentPage }) => {
+const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFolder, savedAttractions }) => {
   // Authentication state
   const [user, setUser] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-
-  // Sample attractions data
-  const [savedAttractions] = useState([
-    {
-      id: 1,
-      name: 'Louvre Museum',
-      hours: 'Opens Sunday, Monday, Thursday, Saturday 9:00-18:00 and Wednesday, Friday 9:00-21:00',
-      duration: '3-4 hours'
-    },
-    {
-      id: 2,
-      name: 'Eiffel Tower',
-      hours: 'Opens 9:30-23:00 everyday',
-      duration: '2-3 hours'
-    },
-    {
-      id: 3,
-      name: 'Musée d\'Orsay',
-      hours: 'Opens Sunday, Tuesday, Wednesday, Friday, Saturday 9:30-18:00 and Thursday 9:30-21:45',
-      duration: '2-3 hours'
-    },
-    {
-      id: 4,
-      name: 'Arc de Triomphe',
-      hours: 'Opens 10:00-23:00 daily',
-      duration: '1-2 hours'
-    },
-    {
-      id: 5,
-      name: 'Notre-Dame Cathedral',
-      hours: 'Currently under renovation',
-      duration: '1 hour'
-    }
-  ]);
 
   const [days, setDays] = useState([
     { id: 1, morning: [null], afternoon: [null], evening: [null] },
@@ -61,6 +27,26 @@ const PlannerPage = ({ setCurrentPage }) => {
     { email: 'cynthiaj@tripweaver.com', role: 'owner' },
     { email: 'bh62@tripweaver.com', role: 'editor' }
   ]);
+
+  // Get destination name from folder
+  const getDestinationFromFolder = () => {
+    if (!selectedFolder) return 'Your Trip';
+    
+    // Extract destination from folder name (e.g., "LA" → "Los Angeles", "Paris Trip" → "Paris")
+    const folderLower = selectedFolder.toLowerCase();
+    if (folderLower.includes('la') || folderLower.includes('los angeles')) {
+      return 'Los Angeles, CA';
+    } else if (folderLower.includes('paris')) {
+      return 'Paris, France';
+    } else if (folderLower.includes('nyc') || folderLower.includes('new york')) {
+      return 'New York, NY';
+    } else if (folderLower.includes('tokyo')) {
+      return 'Tokyo, Japan';
+    } else if (folderLower.includes('london')) {
+      return 'London, UK';
+    }
+    return selectedFolder;
+  };
 
   // Handle drag start
   const handleDragStart = (e, attraction) => {
@@ -179,13 +165,11 @@ const PlannerPage = ({ setCurrentPage }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log('Auth state changed:', currentUser);
     });
-
     return () => unsubscribe();
   }, []);
 
-  // Handle keyboard shortcuts for share modal
+  // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isShareOpen) {
@@ -232,7 +216,7 @@ const PlannerPage = ({ setCurrentPage }) => {
       <div className="main-layout">
         <section className="planner-content">
           <div className="planner-header">
-            <h2 className="planner-title">Travel to Paris, France</h2>
+            <h2 className="planner-title">Travel to {getDestinationFromFolder()}</h2>
             <div className="planner-buttons">
               <button className="add-day-btn" onClick={addDay}>+ Add Day</button>
               <button className="share-btn" onClick={openShareModal}>Share</button>
@@ -287,7 +271,7 @@ const PlannerPage = ({ setCurrentPage }) => {
                                   <div className="scheduled-item">
                                     <div className="scheduled-item-content">
                                       <strong>{attraction.name}</strong>
-                                      <span className="duration">{attraction.duration}</span>
+                                      <span className="duration">{attraction.hours || 'Duration varies'}</span>
                                     </div>
                                     <button
                                       className="remove-btn"
@@ -322,21 +306,102 @@ const PlannerPage = ({ setCurrentPage }) => {
 
         <aside className="saved-attractions">
           <h2>Saved Attractions</h2>
-          <div className="attractions-container">
-            {savedAttractions.map(attraction => (
-              <div
-                key={attraction.id}
-                className="attraction-card"
-                draggable
-                onDragStart={(e) => handleDragStart(e, attraction)}
+          
+          {/* Folder Selector */}
+          {user && wishlists.length > 0 && (
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="folder-select" style={{ 
+                display: 'block', 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                marginBottom: '8px',
+                color: '#2C3532'
+              }}>
+                Select Folder:
+              </label>
+              <select 
+                id="folder-select"
+                value={selectedFolder || ''}
+                onChange={(e) => setSelectedFolder(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: '2px solid #B8D4D0',
+                  background: 'white',
+                  fontSize: '15px',
+                  fontFamily: 'Poppins, sans-serif',
+                  cursor: 'pointer',
+                  outline: 'none'
+                }}
               >
-                <h3>{attraction.name}</h3>
-                <p className="hours">{attraction.hours}</p>
-                <p className="duration-info">Duration: {attraction.duration}</p>
-                <div className="drag-hint">🖐️ Drag to schedule</div>
-              </div>
-            ))}
-          </div>
+                {wishlists.map((folder, index) => (
+                  <option key={index} value={folder.name}>
+                    {folder.name} ({folder.count} attractions)
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Attractions from Selected Folder */}
+          {!user ? (
+            <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+              <p style={{ color: '#666', marginBottom: '15px' }}>Sign in to see your saved attractions!</p>
+              <button 
+                onClick={() => setIsAuthModalOpen(true)}
+                style={{
+                  padding: '10px 20px',
+                  background: '#0F6466',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                Sign In
+              </button>
+            </div>
+          ) : savedAttractions.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+              <p style={{ color: '#666', marginBottom: '15px' }}>
+                {wishlists.length === 0 
+                  ? 'No saved attractions yet.' 
+                  : `No attractions in "${selectedFolder}" folder.`}
+              </p>
+              <button 
+                onClick={() => setCurrentPage('attractions')}
+                style={{
+                  padding: '10px 20px',
+                  background: '#0F6466',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                Browse Attractions
+              </button>
+            </div>
+          ) : (
+            <div className="attractions-container">
+              {savedAttractions.map((attraction, index) => (
+                <div
+                  key={`${attraction.id}-${index}`}
+                  className="attraction-card"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, attraction)}
+                >
+                  <h3>{attraction.name}</h3>
+                  <p className="hours">{attraction.hours}</p>
+                  <p className="duration-info">Category: {attraction.category}</p>
+                  <div className="drag-hint">🖐️ Drag to schedule</div>
+                </div>
+              ))}
+            </div>
+          )}
         </aside>
       </div>
 

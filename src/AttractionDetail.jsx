@@ -1,11 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import {
+  saveAttractionToWishlist,
+  createWishlistFolder,
+  getUserFolderNames
+} from './AttractionFirebaseService';
 
-export default function AttractionDetail({ setCurrentPage, attraction }) {
+export default function AttractionDetail({ setCurrentPage, attraction, refreshWishlists }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const [selectedFolder, setSelectedFolder] = useState('la');
+  const [selectedFolder, setSelectedFolder] = useState('new');
   const [newFolderName, setNewFolderName] = useState('');
+  const [user, setUser] = useState(null);
+  const [folderNames, setFolderNames] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Load current user + their folder names
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+
+      if (currentUser) {
+        try {
+          const names = await getUserFolderNames(currentUser.uid);
+          if (names && names.length > 0) {
+            setFolderNames(names);
+            setSelectedFolder(names[0]);
+          } else {
+            setFolderNames([]);
+            setSelectedFolder('new');
+          }
+        } catch (error) {
+          console.error('Error loading folder names:', error);
+          setFolderNames([]);
+        }
+      } else {
+        setFolderNames([]);
+        setSelectedFolder('new');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // Close modals on Escape key
   useEffect(() => {
@@ -24,6 +62,10 @@ export default function AttractionDetail({ setCurrentPage, attraction }) {
   };
 
   const handleWishClick = () => {
+    if (!user) {
+      alert('Please sign in on the Planner page before saving attractions.');
+      return;
+    }
     setShowConfirmModal(true);
   };
 
@@ -32,12 +74,48 @@ export default function AttractionDetail({ setCurrentPage, attraction }) {
     setShowFolderModal(true);
   };
 
-  const handleFinalSave = () => {
-    // Here you would actually save to localStorage or state
-    console.log('Saving to folder:', selectedFolder === 'new' ? newFolderName : selectedFolder);
-    closeAllModals();
-    // Optional: show a success message
-    alert('Added to wishlist!');
+  const handleFinalSave = async () => {
+    if (!user) {
+      alert('Please sign in before saving attractions.');
+      return;
+    }
+
+    let folderName = selectedFolder;
+
+    if (folderName === 'new') {
+      folderName = newFolderName.trim();
+    }
+
+    if (!folderName) {
+      alert('Please choose a folder or type a folder name.');
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+
+      // Create folder document if it does not exist yet
+      if (!folderNames.includes(folderName)) {
+        await createWishlistFolder(user.uid, folderName);
+      }
+
+      // Save this attraction into that folder
+      await saveAttractionToWishlist(user.uid, folderName, attraction);
+
+      // Let App reload wishlists → Saved page + Planner update
+      if (typeof refreshWishlists === 'function') {
+        refreshWishlists();
+      }
+
+      closeAllModals();
+      setNewFolderName('');
+      alert('Added to wishlist!');
+    } catch (error) {
+      console.error('Error saving attraction:', error);
+      alert('Sorry, something went wrong while saving. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const renderStars = (rating) => {
@@ -221,17 +299,21 @@ export default function AttractionDetail({ setCurrentPage, attraction }) {
           <div className="detail-modal">
             <h2 id="detail-wl-title">Save to wishlist</h2>
             <div className="detail-modal-form">
-              <div className="detail-radio">
-                <input
-                  type="radio"
-                  id="detail-folder-la"
-                  name="folder"
-                  checked={selectedFolder === 'la'}
-                  onChange={() => setSelectedFolder('la')}
-                />
-                <label htmlFor="detail-folder-la">LA</label>
-              </div>
+              {/* Existing folders */}
+              {folderNames.map((name) => (
+                <div className="detail-radio" key={name}>
+                  <input
+                    type="radio"
+                    id={`detail-folder-${name}`}
+                    name="folder"
+                    checked={selectedFolder === name}
+                    onChange={() => setSelectedFolder(name)}
+                  />
+                  <label htmlFor={`detail-folder-${name}`}>{name}</label>
+                </div>
+              ))}
 
+              {/* New folder */}
               <div className="detail-radio">
                 <input
                   type="radio"
@@ -240,7 +322,7 @@ export default function AttractionDetail({ setCurrentPage, attraction }) {
                   checked={selectedFolder === 'new'}
                   onChange={() => setSelectedFolder('new')}
                 />
-                <label htmlFor="detail-folder-new">New folder</label>
+                <label htmlFor="detail-folder-new">Create new folder</label>
               </div>
 
               {selectedFolder === 'new' && (
@@ -265,8 +347,9 @@ export default function AttractionDetail({ setCurrentPage, attraction }) {
                   className="detail-btn-solid" 
                   type="button"
                   onClick={handleFinalSave}
+                  disabled={isSaving}
                 >
-                  Save
+                  {isSaving ? 'Saving…' : 'Save'}
                 </button>
               </div>
             </div>
