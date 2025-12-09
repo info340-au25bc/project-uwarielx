@@ -223,7 +223,7 @@ Visit **http://localhost:5173** in your browser!
 
 ---
 
-## 🎨 Application Structure
+## Application Structure
 
 ### Page Navigation
 
@@ -263,7 +263,7 @@ Saved shows in folder list
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 tripweaver/
