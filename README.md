@@ -13,7 +13,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 - **Aaron Huang** - bh62@uw.edu
 
 **Course:** INFO 340 - Client-Side Web Development  
-**University of Washington** | Autumn 2024
+**University of Washington** | Autumn 2025
 
 ---
 
@@ -22,7 +22,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 ### Attraction Discovery
 - Browse curated attractions from popular destinations
 - Search and filter by category (Museums, Landmarks, Parks, etc.)
-- Filter by price range (Free, $, $$, $$$)
+- Filter by price range (Free, Paid)
 - View detailed information including hours, ratings, and descriptions
 - Integration with OpenTripMap API for worldwide attraction data
 - Google Maps links for navigation
