@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import attractionsData from './attractionsData';
 import './index.css';
 
-export default function AttractionSearch({ setCurrentPage, setSelectedAttraction }) {
+export default function AttractionSearch({ setSelectedAttraction }) {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All categories');
   const [priceFilter, setPriceFilter] = useState('Any price');
@@ -23,7 +25,7 @@ export default function AttractionSearch({ setCurrentPage, setSelectedAttraction
 
   const handleAttractionClick = (attraction) => {
     setSelectedAttraction(attraction);
-    setCurrentPage('attraction-detail');
+    navigate(`/attraction/${attraction.id}`);
   };
 
   return (
@@ -36,9 +38,9 @@ export default function AttractionSearch({ setCurrentPage, setSelectedAttraction
           </div>
           <nav>
             <ul>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-              <li><a aria-current="page" href="#">Attractions</a></li>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
+              <li><Link to="/">Planner</Link></li>
+              <li><Link to="/attractions" aria-current="page">Attractions</Link></li>
+              <li><Link to="/saved">Saved</Link></li>
             </ul>
           </nav>
           <button className="profile-button" type="button" aria-label="Profile">

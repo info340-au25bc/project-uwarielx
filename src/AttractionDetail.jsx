@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.css';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -8,7 +9,8 @@ import {
   getUserFolderNames
 } from './AttractionFirebaseService';
 
-export default function AttractionDetail({ setCurrentPage, attraction, refreshWishlists }) {
+export default function AttractionDetail({ attraction, refreshWishlists }) {
+  const navigate = useNavigate();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState('new');
@@ -139,9 +141,9 @@ export default function AttractionDetail({ setCurrentPage, attraction, refreshWi
             </div>
             <nav>
               <ul>
-                <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-                <li><a aria-current="page" href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
-                <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
+                <li><Link to="/">Planner</Link></li>
+                <li><Link to="/attractions" aria-current="page">Attractions</Link></li>
+                <li><Link to="/saved">Saved</Link></li>
               </ul>
             </nav>
             <button className="profile-button" type="button" aria-label="Profile">
@@ -151,7 +153,7 @@ export default function AttractionDetail({ setCurrentPage, attraction, refreshWi
         </header>
         <main className="wrap-narrow">
           <p style={{ textAlign: 'center', padding: '40px' }}>
-            No attraction selected. <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('attractions'); }}>Browse attractions</a>
+            No attraction selected. <Link to="/attractions">Browse attractions</Link>
           </p>
         </main>
         <footer className="site-footer">
@@ -171,9 +173,9 @@ export default function AttractionDetail({ setCurrentPage, attraction, refreshWi
           </div>
           <nav>
             <ul>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-              <li><a aria-current="page" href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
+              <li><Link to="/">Planner</Link></li>
+              <li><Link to="/attractions" aria-current="page">Attractions</Link></li>
+              <li><Link to="/saved">Saved</Link></li>
             </ul>
           </nav>
           <button className="profile-button" type="button" aria-label="Profile">
@@ -222,17 +224,10 @@ export default function AttractionDetail({ setCurrentPage, attraction, refreshWi
               <li key={index} className="detail-feature">{feature}</li>
             ))}
           </ul>
-
-          {/* Hours */}
-          <div className="detail-body">
-            <p><strong>Hours:</strong> {attraction.hours}</p>
-            <p><strong>Price:</strong> {attraction.price}</p>
-          </div>
-
-          {/* Back button */}
-          <button 
-            onClick={() => setCurrentPage('attractions')}
+          <Link 
+            to="/attractions"
             style={{
+              display: 'inline-block',
               marginTop: '20px',
               padding: '10px 20px',
               background: '#0F6466',
@@ -240,11 +235,13 @@ export default function AttractionDetail({ setCurrentPage, attraction, refreshWi
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
-              fontSize: '16px'
+              fontSize: '16px',
+              textAlign: 'center',
+              textDecoration: 'none'
             }}
           >
             ← Back to Search
-          </button>
+          </Link>
         </section>
       </main>
 

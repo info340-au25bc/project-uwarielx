@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { deleteFolder } from './AttractionFirebaseService';
@@ -11,6 +12,7 @@ export default function SavedPage({
   refreshWishlists,
   setSelectedFolder        // 👈 new prop
 }) {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [selected, setSelected] = useState([]);
   const [user, setUser] = useState(null);
@@ -118,9 +120,9 @@ export default function SavedPage({
           </div>
           <nav>
             <ul>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('planner'); }}>Planner</a></li>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
-              <li><a aria-current="page" href="#">Saved</a></li>
+              <li><Link to="/">Planner</Link></li>
+              <li><Link to="/attractions">Attractions</Link></li>
+              <li><Link to="/saved" aria-current="page">Saved</Link></li>
             </ul>
           </nav>
           <button className="profile-button" type="button" aria-label="Profile">
@@ -166,7 +168,7 @@ export default function SavedPage({
                   Sign in to save and manage your wishlists!
                 </p>
                 <button 
-                  onClick={() => setCurrentPage('planner')}
+                  onClick={() => navigate('/')}
                   style={{
                     padding: '12px 24px',
                     background: '#0F6466',
@@ -186,21 +188,24 @@ export default function SavedPage({
                 <p style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
                   No saved lists yet. Browse attractions and start saving!
                 </p>
-                <button 
-                  onClick={() => setCurrentPage('attractions')}
-                  style={{
-                    padding: '12px 24px',
-                    background: '#0F6466',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '16px',
-                    fontWeight: '600',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Browse Attractions
-                </button>
+                  <Link 
+                    to="/attractions"
+                    style={{
+                      display: 'inline-block',
+                      padding: '12px 24px',
+                      background: '#0F6466',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    Browse Attractions
+                  </Link>
               </div>
             ) : (
               <section className="grid" aria-label="Saved lists">

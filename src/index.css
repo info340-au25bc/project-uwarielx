@@ -217,6 +217,56 @@ button.primary {
   color: #2C3532;
 }
 
+/* Editable title input to match planner heading */
+.planner-title-input {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2C3532;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+}
+
+.planner-title-input::placeholder {
+  color: #9aa8a5;
+  opacity: 1;
+}
+
+.planner-title-input:focus {
+  box-shadow: none;
+}
+
+/* Wrapper that indicates the title is editable */
+.planner-title-wrapper {
+  display: inline-block;
+  width: 480px;
+  max-width: 70vw;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 2px dashed #DADADA;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: text;
+}
+
+.planner-title-wrapper:hover {
+  border-color: #cfcfcf;
+}
+
+.planner-title-wrapper:focus-within {
+  border-color: #0F6466;
+  box-shadow: 0 0 0 6px rgba(15,100,102,0.06);
+}
+
+.planner-title-input::placeholder {
+  color: #9aa8a5;
+  opacity: 1;
+}
+
 .planner-buttons {
   display: flex;
   gap: 12px;

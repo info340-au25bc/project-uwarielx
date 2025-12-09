@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import AuthModal from './AuthModal';
 import './index.css';
 
-const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFolder, savedAttractions }) => {
+const PlannerPage = ({ wishlists, selectedFolder, setSelectedFolder, savedAttractions }) => {
+  const navigate = useNavigate();
   // Authentication state
   const [user, setUser] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -17,6 +19,9 @@ const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFol
 
   const [draggedItem, setDraggedItem] = useState(null);
   const [isFavorited, setIsFavorited] = useState(false);
+  // Editable trip title state
+  const [tripTitle, setTripTitle] = useState('');
+  const [isTitleEdited, setIsTitleEdited] = useState(false);
 
   // Share modal state
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -47,6 +52,8 @@ const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFol
     }
     return selectedFolder;
   };
+
+  // Note: title is intentionally left empty so users see a placeholder prompt
 
   // Handle drag start
   const handleDragStart = (e, attraction) => {
@@ -197,9 +204,9 @@ const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFol
           </div>
           <nav>
             <ul>
-              <li><a href="#" className="active">Planner</a></li>
-              <li><a href="#" onClick={e => { e.preventDefault(); setCurrentPage('attractions'); }}>Attractions</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('saved'); }}>Saved</a></li>
+              <li><Link to="/" className="active">Planner</Link></li>
+              <li><Link to="/attractions">Attractions</Link></li>
+              <li><Link to="/saved">Saved</Link></li>
             </ul>
           </nav>
           {user ? (
@@ -216,7 +223,15 @@ const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFol
       <div className="main-layout">
         <section className="planner-content">
           <div className="planner-header">
-            <h2 className="planner-title">Travel to {getDestinationFromFolder()}</h2>
+            <div className="planner-title-wrapper">
+              <input
+                aria-label="Trip title"
+                className="planner-title-input"
+                value={tripTitle}
+                placeholder="Type your trip title"
+                onChange={(e) => { setTripTitle(e.target.value); setIsTitleEdited(true); }}
+              />
+            </div>
             <div className="planner-buttons">
               <button className="add-day-btn" onClick={addDay}>+ Add Day</button>
               <button className="share-btn" onClick={openShareModal}>Share</button>
@@ -370,20 +385,23 @@ const PlannerPage = ({ setCurrentPage, wishlists, selectedFolder, setSelectedFol
                   ? 'No saved attractions yet.' 
                   : `No attractions in "${selectedFolder}" folder.`}
               </p>
-              <button 
-                onClick={() => setCurrentPage('attractions')}
+              <Link 
+                to="/attractions"
                 style={{
+                  display: 'inline-block',
                   padding: '10px 20px',
                   background: '#0F6466',
                   color: 'white',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  fontWeight: '600'
+                  fontWeight: '600',
+                  textAlign: 'center',
+                  textDecoration: 'none'
                 }}
               >
                 Browse Attractions
-              </button>
+              </Link>
             </div>
           ) : (
             <div className="attractions-container">
