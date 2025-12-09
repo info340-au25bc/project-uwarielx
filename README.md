@@ -1,4 +1,4 @@
-# 🌍 TripWeaver - Travel Itinerary Planner
+# TripWeaver - Travel Itinerary Planner
 
 A modern, cloud-connected travel planning application that helps you discover attractions, organize wishlists, and create detailed day-by-day itineraries with an intuitive drag-and-drop interface.
 
@@ -6,7 +6,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 
 ---
 
-## 👥 Team
+## Team
 
 - **Ariel Xia** - arielx@uw.edu
 - **Cynthia Jin** - cynthiaj@uw.edu  
@@ -17,9 +17,9 @@ A modern, cloud-connected travel planning application that helps you discover at
 
 ---
 
-## ✨ Features
+## Features
 
-### 🗺️ Attraction Discovery
+### Attraction Discovery
 - Browse curated attractions from popular destinations
 - Search and filter by category (Museums, Landmarks, Parks, etc.)
 - Filter by price range (Free, $, $$, $$$)
@@ -27,7 +27,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 - Integration with OpenTripMap API for worldwide attraction data
 - Google Maps links for navigation
 
-### 💾 Smart Wishlists
+### Smart Wishlists
 - Save attractions to custom-named folders
 - Organize trips by destination (LA, Paris, NYC, etc.)
 - Cloud storage with Firebase Firestore
@@ -35,7 +35,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 - View and manage all saved attractions by folder
 - Delete folders and attractions with confirmation
 
-### 📅 Interactive Planner
+### Interactive Planner
 - Drag-and-drop scheduling interface
 - Organize attractions by day and time (Morning, Afternoon, Evening)
 - Add unlimited days to your itinerary
@@ -44,14 +44,14 @@ A modern, cloud-connected travel planning application that helps you discover at
 - Collaborative sharing with team members
 - Export-ready format for your trips
 
-### 🔐 User Authentication
+### User Authentication
 - Secure Firebase Authentication
 - Email/password sign-up and sign-in
 - Password reset functionality
 - User-specific data isolation
 - Persistent sessions
 
-### ☁️ Cloud Integration
+### Cloud Integration
 - **Firebase Firestore** - NoSQL database for wishlists
 - **Firebase Hosting** - Fast, secure hosting
 - **Firebase Authentication** - Secure user management
@@ -60,7 +60,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 18** - Component-based UI framework
@@ -82,7 +82,7 @@ A modern, cloud-connected travel planning application that helps you discover at
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -297,7 +297,7 @@ tripweaver/
 
 ---
 
-## 🎯 Key Components
+## Key Components
 
 ### App.jsx
 - **State Management** - Manages wishlists and selected folder
@@ -326,7 +326,7 @@ tripweaver/
 
 ---
 
-## 🔥 Firebase Integration
+## Firebase Integration
 
 ### Collections Structure
 
@@ -369,7 +369,7 @@ tripweaver/
 
 ---
 
-## 🌐 Deployment
+## Deployment
 
 ### Build for Production
 
@@ -489,7 +489,7 @@ open http://localhost:5173
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "No saved attractions yet" after saving
 
@@ -533,7 +533,7 @@ firebase deploy --only hosting
 
 ---
 
-## 🎨 Customization
+## Customization
 
 ### Add New Destinations
 
@@ -591,9 +591,9 @@ export const attractions = [
 
 ---
 
-## 📊 Features Roadmap
+## Features Roadmap
 
-### Completed ✅
+### Completed
 - [x] User authentication
 - [x] Attraction browsing
 - [x] Save to wishlists
@@ -602,12 +602,12 @@ export const attractions = [
 - [x] Cloud sync
 - [x] Responsive design
 
-### In Progress 🚧
+### In Progress
 - [ ] OpenTripMap API integration
 - [ ] Social sharing
 - [ ] Email invitations
 
-### Future Features 💡
+### Future Features
 - [ ] Export itinerary as PDF
 - [ ] Weather integration
 - [ ] Budget calculator
@@ -619,7 +619,7 @@ export const attractions = [
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is a class project, but we welcome feedback!
 
@@ -638,7 +638,7 @@ This is a class project, but we welcome feedback!
 
 ---
 
-## 📄 License
+## License
 
 © 2024 Ariel Xia, Cynthia Jin, Aaron Huang. All rights reserved.
 
@@ -648,7 +648,7 @@ This is a class project, but we welcome feedback!
 
 ---
 
-## 📞 Contact & Support
+## Contact & Support
 
 **Team Emails:**
 - Ariel Xia: arielx@uw.edu
@@ -661,7 +661,7 @@ This is a class project, but we welcome feedback!
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Professor Joel Ross** - INFO 340 Instructor
 - **Teaching Assistants** - For guidance and support
@@ -672,7 +672,7 @@ This is a class project, but we welcome feedback!
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Planner Page
 ![Planner with drag-and-drop scheduling](docs/planner-screenshot.png)
@@ -688,7 +688,7 @@ This is a class project, but we welcome feedback!
 
 ---
 
-## 🎓 Educational Outcomes
+## Educational Outcomes
 
 This project demonstrates:
 
